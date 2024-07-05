@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import org.example.parcialfinal.controllador.DatabaseConnection;
 import org.example.parcialfinal.modelo.Facilitador;
 
 import java.net.URL;
@@ -103,8 +104,7 @@ public class HelloController implements Initializable {
 
     public void conexionPrueba() {
         try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/pooparcialfinal", "parcial", "1234");
-            Statement stmt = connection.createStatement();
+            Statement stmt = DatabaseConnection.getConnection().createStatement();
             String query = "SELECT * FROM facilitador";
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -112,9 +112,10 @@ public class HelloController implements Initializable {
 
                 System.out.println(facilitador.getId()+"\t"+facilitador.getTipo());
             }
-            connection.close();
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            DatabaseConnection.closeConnection();
         }
     }
 
