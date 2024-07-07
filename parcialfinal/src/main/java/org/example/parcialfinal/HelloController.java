@@ -127,6 +127,12 @@ public class HelloController implements Initializable {
     private TextField txtClienteId;
 
     @FXML
+    private TextField txtTarjetaId;
+
+    @FXML
+    private TextField txtCompraId;
+
+    @FXML
     private TextField txtBuscarCliente;
 
     @FXML
@@ -167,7 +173,7 @@ public class HelloController implements Initializable {
 
     // Constructor sin argumentos requerido por FXM Loader
     public HelloController() {
-        this.clienteControlador = new ClienteControlador();
+        this(new ClienteControlador());
     }
 
     /**
@@ -252,41 +258,94 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void agregarCliente() {
-        Cliente cliente = new Cliente();
-
-        if (Objects.equals(txtClienteId.getText(), "")) {
-            cliente.setId(null);
-        } else {
-            cliente.setId(Integer.valueOf(txtClienteId.getText()));
+    protected void buscarCliente() {
+        String termino = txtBuscarCliente.getText();
+        if(verificarCamposConDatos("cliente", "buscar")) {
+            List<Cliente> clientes = clienteControlador.buscarClientes(termino);
+            observableListCliente.clear();
+            observableListCliente.addAll(clientes);
         }
+    }
 
-        cliente.setNombre(txtClienteNombre.getText());
-        cliente.setTelefono(txtClienteTelefono.getText());
-        cliente.setDireccion(txtAreaDireccion.getText());
+    @FXML
+    protected void agregarCliente() {
+        String accion;
+        if(verificarCamposConDatos("cliente", "guardar")) {
+            Cliente cliente = new Cliente();
 
-        if(clienteControlador.persistirCliente(cliente)) {
-            System.out.println("cliente agregado");
-            limpiarCampos("cliente");
-            obtenerClientes();
-        } else {
-            System.out.println("cliente no agregado");
+            if (Objects.equals(txtClienteId.getText(), "")) {
+                cliente.setId(null);
+                accion = "guardado";
+            } else {
+                cliente.setId(Integer.valueOf(txtClienteId.getText()));
+                accion = "actualizado";
+            }
+
+            cliente.setNombre(txtClienteNombre.getText());
+            cliente.setTelefono(txtClienteTelefono.getText());
+            cliente.setDireccion(txtAreaDireccion.getText());
+
+            if(clienteControlador.persistirCliente(cliente)) {
+                lanzarAlerta("Exito", "Cliente " + accion, Alert.AlertType.INFORMATION);
+                limpiarCampos("cliente");
+                obtenerClientes();
+            } else {
+                lanzarAlerta("Cliente no guardado", "Hubo un error al guardar el registro", Alert.AlertType.ERROR);
+            }
         }
     }
 
     @FXML
     protected void eliminarCliente() {
-        if(!Objects.equals(txtClienteId.getText(), "")){
+        if(verificarCamposConDatos("cliente", "eliminar")){
             if(clienteControlador.eliminarCliente(Integer.parseInt(txtClienteId.getText()))) {
-                System.out.println("eliminado");
+                lanzarAlerta("Exito", "Cliente eliminado", Alert.AlertType.INFORMATION);
                 limpiarCampos("cliente");
                 obtenerClientes();
             } else {
-                System.out.println("hubo un error al eliminar el registro");
+                lanzarAlerta("Cliente no eliminado", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR);
             }
-        } else {
-            System.out.println("seleccione un registro a eliminar");
         }
+    }
+
+    /**
+     * Metodo que nos permitira lanzar alertas al usuario
+     *
+     * @param mensaje mensaje a mostrar en nuestra alerta
+     * @param tipo tipo de alerta en base al enum estatico AlertType de la clase Alert
+     *             cuyos valores pueden ser: NONE, INFORMATION, WARNING, CONFIRMATION, y ERROR
+     */
+    private void lanzarAlerta(String mensaje, Alert.AlertType tipo) {
+        // Definimos el tipo de alerta
+        Alert alert = new Alert(tipo);
+        // Titulo de nuestra ventana
+        alert.setTitle("Mensaje del sistema");
+        // Asignamos el valor del header, en este caso null
+        alert.setHeaderText(null);
+        // El mensaje de contendra nuestra ventana
+        alert.setContentText(mensaje);
+        // Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
+        alert.showAndWait();
+    }
+
+    /**
+     * Se hace un overloading de lanzarAlerta() teniendo
+     * un metodo con 3 parametros y otro con 2 parametros
+     * @param titulo
+     * @param mensaje
+     * @param tipo
+     */
+    private void lanzarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+        // Definimos el tipo de alerta
+        Alert alert = new Alert(tipo);
+        // Titulo de nuestra ventana
+        alert.setTitle(titulo);
+        // Asignamos el valor del header, en este caso null
+        alert.setHeaderText(null);
+        // El mensaje de contendra nuestra ventana
+        alert.setContentText(mensaje);
+        // Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
+        alert.showAndWait();
     }
 
     private void limpiarCampos(String modelo) {
@@ -296,6 +355,43 @@ public class HelloController implements Initializable {
             txtClienteTelefono.clear();
             txtAreaDireccion.clear();
             txtAreaDescripcion.clear();
+        } else if (Objects.equals(modelo, "tarjeta")) {
+            txtTarjetaId.clear();
+            txtNumTarjeta.clear();
+            txtFechaVencimiento.clear();
+            txtCvc.clear();
+            cbClientes.valueProperty().set(null);
+            cbTipoTarjeta.valueProperty().set(null);
+            cbFacilitador.valueProperty().set(null);
+        } else if (Objects.equals(modelo, "compra")) {
+            txtCompraId.clear();
+            txtMonto.clear();
+            txtAreaDescripcion.clear();
+            datePickerFechaCompra.setValue(null);
         }
+    }
+
+    private boolean verificarCamposConDatos(String modelo, String accion){
+        if(Objects.equals(modelo, "cliente")) {
+            if(Objects.equals(accion, "guardar")) {
+                if(txtClienteNombre.getText().equals("")
+                        || txtClienteTelefono.getText().equals("")
+                        || txtAreaDireccion.getText().equals("") ){
+                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING);
+                    return false;
+                }
+            } else if (Objects.equals(accion, "eliminar")) {
+                if(txtClienteId.getText().equals("")) {
+                    lanzarAlerta("Seleccione un Cliente a eliminar", Alert.AlertType.WARNING);
+                    return false;
+                }
+            } else if (Objects.equals(accion, "buscar")) {
+                if(txtBuscarCliente.getText().equals("")) {
+                    lanzarAlerta("Ingrese un termino para buscar el Cliente", Alert.AlertType.WARNING);
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
