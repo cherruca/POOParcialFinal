@@ -70,7 +70,7 @@ public class ClienteControlador {
             String query;
             int result;
             if(Objects.isNull(cliente.getId())) {
-                query = "INSERT INTO cliente (nombre, telefono, direccion, id) VALUES (?, ?, ?, ?);";
+                query = "INSERT INTO cliente (nombre, telefono, direccion) VALUES (?, ?, ?);";
             } else {
                 query = "UPDATE cliente SET nombre = ?, telefono = ?, direccion = ? WHERE id = ?;";
             }
@@ -79,7 +79,9 @@ public class ClienteControlador {
             pst.setString(1, cliente.getNombre());
             pst.setString(2, cliente.getTelefono());
             pst.setString(3, cliente.getDireccion());
-            pst.setInt(4, cliente.getId());
+            if(Objects.nonNull(cliente.getId())) {
+                pst.setInt(4, cliente.getId());
+            }
 
             result = pst.executeUpdate();
 

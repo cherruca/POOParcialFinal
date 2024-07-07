@@ -7,5 +7,6 @@ module org.example.parcialfinal {
 
     opens org.example.parcialfinal to javafx.fxml;
     opens org.example.parcialfinal.modelo to javafx.base;
+    opens org.example.parcialfinal.controllador to javafx.base;
     exports org.example.parcialfinal;
 }

@@ -19,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import java.net.URL;
 import java.sql.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
@@ -122,6 +123,9 @@ public class HelloController implements Initializable {
     private TextArea txtAreaDireccion;
 
     @FXML
+    private TextField txtClienteId;
+
+    @FXML
     private TextField txtBuscarCliente;
 
     @FXML
@@ -158,6 +162,12 @@ public class HelloController implements Initializable {
      * hace una simulacion de Dependency Injection (Inyeccion de Dependencias)
      */
     private ClienteControlador clienteControlador;
+
+
+    // Constructor sin argumentos requerido por FXM Loader
+    public HelloController() {
+        this.clienteControlador = new ClienteControlador();
+    }
 
     /**
      * Se inicializan las instancias de los controladores
@@ -205,5 +215,36 @@ public class HelloController implements Initializable {
          * Se asigna datos a la tabla por medio de un ObservableList
          */
         tblClientes.setItems(observableListCliente);
+
+        obtenerClientes();
+    }
+
+
+    public void obtenerClientes() {
+        // Se obtiene los registros de los clientes de la base de datos
+        List<Cliente> clientes = clienteControlador.obtenerClientes();
+        // Se limpia el ObservableList
+        observableListCliente.clear();
+        // Se añade la lista al ObservableList
+        observableListCliente.addAll(clientes);
+    }
+
+    @FXML
+    protected void agregarCliente() {
+        Cliente cliente = new Cliente();
+
+        if (Objects.equals(txtClienteId.getText(), "")) {
+            cliente.setId(null);
+        } else {
+            System.out.println("whattt");
+            cliente.setId(Integer.valueOf(txtClienteId.getText()));
+        }
+
+        cliente.setNombre(txtClienteNombre.getText());
+        cliente.setTelefono(txtClienteTelefono.getText());
+        cliente.setDireccion(txtAreaDireccion.getText());
+
+        clienteControlador.persistirCliente(cliente);
+        obtenerClientes();
     }
 }
