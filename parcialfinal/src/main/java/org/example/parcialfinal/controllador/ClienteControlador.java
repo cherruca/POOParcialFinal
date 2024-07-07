@@ -65,7 +65,7 @@ public class ClienteControlador {
         }
     }
 
-    public void persistirCliente(Cliente cliente) {
+    public boolean persistirCliente(Cliente cliente) {
         try {
             String query;
             int result;
@@ -87,8 +87,10 @@ public class ClienteControlador {
 
             if(result > 0) {
                 System.out.println("EXITO");
+                return true;
             } else {
                 System.out.println("FRACASO");
+                return false;
             }
 
         } catch (SQLException e) {
@@ -96,27 +98,31 @@ public class ClienteControlador {
         } finally {
             DatabaseConnection.closeConnection();
         }
+        return true;
     }
 
-    public void eliminarCliente(Integer idCliente) {
+    public boolean eliminarCliente(Integer idCliente) {
         try {
             String query = "DELETE FROM cliente WHERE id = ?";
-
+            int result;
             PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
 
             pst.setInt(1, idCliente);
 
-            pst.executeUpdate();
+            result =  pst.executeUpdate();
 
-            if(pst.executeUpdate() > 0) {
+            if(result > 0) {
                 System.out.println("EXITO");
+                return true;
             } else {
                 System.out.println("FRACASO");
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             DatabaseConnection.closeConnection();
         }
+        return true;
     }
 }

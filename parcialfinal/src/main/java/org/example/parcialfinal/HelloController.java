@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.skin.TableHeaderRow;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import org.example.parcialfinal.controllador.ClienteControlador;
 import org.example.parcialfinal.controllador.DatabaseConnection;
@@ -216,6 +217,27 @@ public class HelloController implements Initializable {
          */
         tblClientes.setItems(observableListCliente);
 
+        tblClientes.setRowFactory(object -> {
+            TableRow<Cliente> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    Cliente cliente = row.getItem();
+                    if(row.getIndex() == tblClientes.getSelectionModel().getSelectedIndex()
+                            && Objects.equals(txtClienteId.getText(), String.valueOf(cliente.getId()))
+                    ){
+                        tblClientes.getSelectionModel().clearSelection();
+                        limpiarCampos("cliente");
+                    } else {
+                        txtClienteId.setText(cliente.getId().toString());
+                        txtClienteNombre.setText(cliente.getNombre());
+                        txtClienteTelefono.setText(cliente.getTelefono());
+                        txtAreaDireccion.setText(cliente.getDireccion());
+                    }
+                }
+            });
+            return row;
+        });
+
         obtenerClientes();
     }
 
@@ -236,7 +258,6 @@ public class HelloController implements Initializable {
         if (Objects.equals(txtClienteId.getText(), "")) {
             cliente.setId(null);
         } else {
-            System.out.println("whattt");
             cliente.setId(Integer.valueOf(txtClienteId.getText()));
         }
 
@@ -244,7 +265,37 @@ public class HelloController implements Initializable {
         cliente.setTelefono(txtClienteTelefono.getText());
         cliente.setDireccion(txtAreaDireccion.getText());
 
-        clienteControlador.persistirCliente(cliente);
-        obtenerClientes();
+        if(clienteControlador.persistirCliente(cliente)) {
+            System.out.println("cliente agregado");
+            limpiarCampos("cliente");
+            obtenerClientes();
+        } else {
+            System.out.println("cliente no agregado");
+        }
+    }
+
+    @FXML
+    protected void eliminarCliente() {
+        if(!Objects.equals(txtClienteId.getText(), "")){
+            if(clienteControlador.eliminarCliente(Integer.parseInt(txtClienteId.getText()))) {
+                System.out.println("eliminado");
+                limpiarCampos("cliente");
+                obtenerClientes();
+            } else {
+                System.out.println("hubo un error al eliminar el registro");
+            }
+        } else {
+            System.out.println("seleccione un registro a eliminar");
+        }
+    }
+
+    private void limpiarCampos(String modelo) {
+        if(Objects.equals(modelo, "cliente")) {
+            txtClienteId.clear();
+            txtClienteNombre.clear();
+            txtClienteTelefono.clear();
+            txtAreaDireccion.clear();
+            txtAreaDescripcion.clear();
+        }
     }
 }

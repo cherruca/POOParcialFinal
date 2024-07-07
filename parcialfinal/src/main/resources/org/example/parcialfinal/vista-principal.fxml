@@ -37,7 +37,7 @@
                                     <TextField fx:id="txtBuscarCliente" layoutX="496.0" layoutY="277.0" prefHeight="26.0" prefWidth="352.0" />
                                     <Button fx:id="btnBuscarCliente" layoutX="858.0" layoutY="278.0" mnemonicParsing="false" text="Buscar" />
                                     <Button fx:id="btnGuardarCliente" layoutX="538.0" layoutY="43.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
-                                    <Button fx:id="btnEliminarCliente" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <Button fx:id="btnEliminarCliente" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
                                     <TextArea fx:id="txtAreaDireccion" layoutX="20.0" layoutY="165.0" prefHeight="112.0" prefWidth="466.0" />
                                     <TextField fx:id="txtClienteNombre" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="467.0" />
                                     <TextField fx:id="txtClienteTelefono" layoutX="20.0" layoutY="102.0" prefHeight="26.0" prefWidth="219.0" />
