@@ -1,14 +1,24 @@
 package org.example.parcialfinal;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.TableHeaderRow;
 import javafx.scene.layout.VBox;
+import org.example.parcialfinal.controllador.ClienteControlador;
 import org.example.parcialfinal.controllador.DatabaseConnection;
+import org.example.parcialfinal.modelo.Cliente;
 import org.example.parcialfinal.modelo.Facilitador;
 
+import javax.swing.event.ChangeEvent;
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
@@ -55,13 +65,55 @@ public class HelloController implements Initializable {
     private DatePicker datePickerFechaCompra;
 
     @FXML
-    private TableView<?> tblClientes;
+    private TableView<Cliente> tblClientes;
 
     @FXML
     private TableView<?> tblCompras;
 
     @FXML
     private TableView<?> tblTarjetas;
+
+    @FXML
+    private TableColumn<Cliente, String> tcClienteDireccion;
+
+    @FXML
+    private TableColumn<Cliente, Integer> tcClienteId;
+
+    @FXML
+    private TableColumn<Cliente, String> tcClienteNombre;
+
+    @FXML
+    private TableColumn<Cliente, String> tcClienteTelefono;
+
+    @FXML
+    private TableColumn<?, ?> tcCompraDescripcion;
+
+    @FXML
+    private TableColumn<?, ?> tcCompraFechaCompra;
+
+    @FXML
+    private TableColumn<?, ?> tcCompraId;
+
+    @FXML
+    private TableColumn<?, ?> tcCompraMonto;
+
+    @FXML
+    private TableColumn<?, ?> tcCompraTarjeta;
+
+    @FXML
+    private TableColumn<?, ?> tcTarjetaCvc;
+
+    @FXML
+    private TableColumn<?, ?> tcTarjetaFechaVen;
+
+    @FXML
+    private TableColumn<?, ?> tcTarjetaId;
+
+    @FXML
+    private TableColumn<?, ?> tcTarjetaNomCliente;
+
+    @FXML
+    private TableColumn<?, ?> tcTarjetaNum;
 
     @FXML
     private TextArea txtAreaDescripcion;
@@ -77,9 +129,6 @@ public class HelloController implements Initializable {
 
     @FXML
     private TextField txtBuscarTarjeta;
-
-    @FXML
-    private TextField txtClienteApellido;
 
     @FXML
     private TextField txtClienteNombre;
@@ -102,25 +151,59 @@ public class HelloController implements Initializable {
     @FXML
     private VBox vbMenu;
 
-    public void conexionPrueba() {
-        try {
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
-            String query = "SELECT * FROM facilitador";
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                Facilitador facilitador = new Facilitador(rs.getInt("id"), rs.getString("tipo"));
+    ObservableList<Cliente> observableListCliente = FXCollections.observableArrayList();
 
-                System.out.println(facilitador.getId()+"\t"+facilitador.getTipo());
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            DatabaseConnection.closeConnection();
-        }
+    /**
+     * Se declaran los controladores como atributos y se
+     * hace una simulacion de Dependency Injection (Inyeccion de Dependencias)
+     */
+    private ClienteControlador clienteControlador;
+
+    /**
+     * Se inicializan las instancias de los controladores
+     * por medio de un constructor de la clase
+     * @param clienteControlador instancia de ClienteControlador a ser inyectada
+     */
+    public HelloController(ClienteControlador clienteControlador) {
+        this.clienteControlador = clienteControlador;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        conexionPrueba();
+        /**
+         * Se obtiene el header de la tabla usando un listener,
+         * luego se agrega otro listener a la propiedad de reordering (reordenamiento)
+         * y se asigan false al atributo Reordering
+         *
+         * Con esto, se logra que las columnas de las tablas no se pueden ajustar su tamaño
+         */
+        tblClientes.widthProperty().addListener((observableValue, number, t1) -> {
+            TableHeaderRow header = (TableHeaderRow) tblClientes.lookup("TableHeaderRow");
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+        });
+
+        tblTarjetas.widthProperty().addListener((observableValue, number, t1) -> {
+            TableHeaderRow header = (TableHeaderRow) tblTarjetas.lookup("TableHeaderRow");
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+        });
+
+        tblCompras.widthProperty().addListener((observableValue, number, t1) -> {
+            TableHeaderRow header = (TableHeaderRow) tblCompras.lookup("TableHeaderRow");
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+        });
+
+        /**
+         * Se asigna un value factory a las columnas para
+         * definir que atributo van a mostrar
+         */
+        tcClienteId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tcClienteNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        tcClienteTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        tcClienteDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+
+        /**
+         * Se asigna datos a la tabla por medio de un ObservableList
+         */
+        tblClientes.setItems(observableListCliente);
     }
 }
