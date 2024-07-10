@@ -11,19 +11,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import org.example.parcialfinal.controllador.*;
-import org.example.parcialfinal.modelo.Cliente;
-import org.example.parcialfinal.modelo.Compra;
-import org.example.parcialfinal.modelo.Facilitador;
-
-import org.example.parcialfinal.modelo.ReporteA;
-import org.example.parcialfinal.modelo.ReporteParametro;
-
-import org.example.parcialfinal.modelo.Tarjeta;
+import org.example.parcialfinal.modelo.*;
 
 
 import java.net.URL;
 
 import java.sql.*;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -31,10 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HelloController implements Initializable {
     @FXML
@@ -190,7 +181,7 @@ public class HelloController implements Initializable {
     @FXML
     private Button btnReporteD; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo D
     @FXML
-    private ComboBox<?> cbReporteBanio; // 00191322 Combobox que de tipo Reporte
+    private DatePicker cbReporteBanio; // 00191322 DatePicker que de tipo Reporte
     @FXML
     private ComboBox<?> cbReporteBmes; // 00191322 Combobox que de tipo Bmes
     @FXML
@@ -380,6 +371,8 @@ public class HelloController implements Initializable {
         observableListTipoTarjeta.addAll(tipoTarjeta); // 00191322 se asigna el valor de la lista de Tipo Tarjeta al observableListTipoTarjeta
 
         cbTipoTarjeta.setItems(observableListTipoTarjeta); // 00191322 se asigna al Combobox todas los Tipo de Tarjeta, en este caso Credito y Debito
+
+        cargarComboClientes(); // 00402523 rellena el combo de clientes para generar los reportes
     }
 
     @FXML
@@ -387,7 +380,7 @@ public class HelloController implements Initializable {
         limpiarCampos("cliente"); // 00191322 se limpian los campos de clientes
         obtenerClientes(); // 00191322 se obtienen toods los clientes de la base
 
-        cargarComboClientes(); // 00402523 rellena el combo de clientes para generar los reportes
+
 
     }
 
@@ -810,27 +803,95 @@ public class HelloController implements Initializable {
     }
 
 
-    @FXML
-    public void obtenerReporteA() {
-        System.out.println(reporteCliente.getValue().getNombre());
-        System.out.println(reporteAFechaInicio.getValue());
-        System.out.println(reporteAFechaFin.getValue());
+    @FXML // 00402523 elemento de FXML
+    public void obtenerReporteA() { // 00402523 metodo para generar el reporte
+        System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
+        System.out.println(reporteAFechaInicio.getValue()); // 00402523 impresion de los valores recibidos en consola
+        System.out.println(reporteAFechaFin.getValue());    // 00402523 impresion de los valores recibidos en consola
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // 00402523 formato de fecha para enviar al query
+
+        try { // 00402523 try catch para generar el reporte
+            java.util.Date dateInicio = formato.parse(String.valueOf(reporteAFechaInicio.getValue())); // 00402523 conversión del dato recibido al formato de fecha
+            java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime()); // 00402523 creacion de la fecha
+            java.util.Date dateFin = formato.parse(String.valueOf(reporteAFechaFin.getValue())); // 00402523 conversión del dato recibido al formato de fecha
+            java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime()); // 00402523 creacion de la fecha
+
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin); // 00402523 instancia de los parametros del reporte
+            ReporteA reporteA = new ReporteA(); // 00402523 instancia de la clase del reporte
+
+            reporteA.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
+
+        } catch (ParseException e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
+        }
+    }
+
+    @FXML
+    public void obtenerReporteB() {
+        System.out.println(reporteCliente.getValue().getNombre());
+//        System.out.println(cbReporteBanio.getValue().getMonth());
+        String fechaIncompleta = String.valueOf(cbReporteBanio.getValue());
+        fechaIncompleta = fechaIncompleta.substring(0,8);
+        System.out.println("fecha incompleta " + fechaIncompleta);
+        int primerDia;
+        int ultimoDia;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat formatoQuery = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
-            java.util.Date dateInicio = formato.parse(String.valueOf(reporteAFechaInicio.getValue()));
+            java.util.Date dateRecibida = formato.parse(String.valueOf(cbReporteBanio.getValue()));
+            java.sql.Date fechaRecibida = new java.sql.Date(dateRecibida.getTime());
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaRecibida);
+
+
+            primerDia = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
+            ultimoDia = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            System.out.println(primerDia);
+            String fechaCadenaInicio = fechaRecibida + "-" + primerDia;
+            java.util.Date dateInicio = formatoQuery.parse(fechaCadenaInicio);
             java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime());
-            java.util.Date dateFin = formato.parse(String.valueOf(reporteAFechaFin.getValue()));
+            System.out.println("inicio " + fechaInicio);
+
+            System.out.println(ultimoDia);
+            String fechaCadenaFin = fechaIncompleta + ultimoDia;
+            System.out.println(fechaCadenaFin);
+            java.util.Date dateFin = formatoQuery.parse(fechaCadenaFin);
             java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime());
+            System.out.println("fin " + fechaFin);
+
 
             ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin);
-            ReporteA reporteA = new ReporteA();
+            ReporteB reporteB = new ReporteB();
 
-            reporteA.generarConsulta(reporteParametro);
+            reporteB.generarConsulta(reporteParametro);
 
         } catch (ParseException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
+        }
+    }
+
+    @FXML // 00402523 elemento de FXML
+    public void obtenerReporteC() { // 00402523 metodo para generar el reporte
+        System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
+
+
+
+
+        try { // 00402523 try catch para generar el reporte
+
+
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId()); // 00402523 instancia de los parametros del reporte
+            ReporteC reporteC = new ReporteC(); // 00402523 instancia de la clase del reporte
+
+            reporteC.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
+
+        } catch (Exception e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
         }
     }
 

@@ -10,25 +10,17 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ReporteC implements ReporteInterfaz{
+public class ReporteB implements ReporteInterfaz { // 00402523 creación de la clase
     @Override // 00402523 sobrescribir el metodo de la interfaz
     public void generarConsulta(ReporteParametro reporteParametro) { // 00402523 metodo para generar la consulta mysql
         try { // 00402523 inicia try catch para la consulta mysql
-            String query = "SELECT " +
-                    "ta.id, " +
-                    "CONCAT(REPEAT('*', 12), RIGHT(numero, 4)) AS numero_formateado, " +
-                    "fechaVencimiento, " +
-                    "codigo, " +
-                    "facilitador_id, " +
-                    "cliente_id, " +
-                    "tipo_tarjeta," +
-                    "cl.nombre " +
-                    "FROM tarjeta ta " +
-                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +
-                    "WHERE cliente_id = ?"; // 00402523 se crea la consulta
+            String query = "SELECT SUM(compra.monto) AS compras, cliente.nombre, date(?) as MES FROM compra LEFT JOIN tarjeta ON tarjeta.id = compra.tarjeta_id LEFT JOIN cliente ON cliente.id = tarjeta.cliente_id WHERE cliente.id = ? AND compra.fecha BETWEEN ? AND ?"; // 00402523 se crea la consulta
             PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00402523 se crea la consulta preparada con la clase de la conexion a la base
 
-            pst.setInt(1, reporteParametro.getId()); // 00402523 se envia parametro
+            pst.setDate(1, reporteParametro.getInicio()); // 00402523 se envia parametro
+            pst.setInt(2, reporteParametro.getId()); // 00402523 se envia parametro
+            pst.setDate(3, reporteParametro.getInicio()); // 00402523 se envia parametro
+            pst.setDate(4, reporteParametro.getFin()); // 00402523 se envia parametro
 
             ResultSet rs = pst.executeQuery(); // 00402523 se ejecuta la sentencia preparada
 
@@ -43,27 +35,20 @@ public class ReporteC implements ReporteInterfaz{
     @Override // 00402523 sobrescribir el metodo de la interfaz
     public String generarReporte(ResultSet rs) { // 00402523 metodo para generar el texto del reporte
         try { // 00402523 inicia try catch para la consulta mysql
-            StringBuilder texto = new StringBuilder(); // 00191322 se crea un String Builder para agregar string
-            StringBuilder tipoCredito = new StringBuilder(); // 00191322 se crea un String Builder para agregar string, listado de tarjetas de credito
-            StringBuilder tipoDebito = new StringBuilder(); // 00191322 se crea un String Builder para agregar string, listado de tarjetas de debito
-            boolean flag = true; // 00191322 bandera para agregar el nombre solo 1 vez
-            while (rs.next()) {// 00402523 inicia el bucle para recorrer el resultset
-                if(flag) {
-                    texto.append("Listado de tarjetas del Cliente: ").append(rs.getString("nombre")); // 00191322 se agrega el nombre al reporte
-                    flag = false; // 00191322 se asigna false a la bandera
-                }
-                if(rs.getString("tipo_tarjeta").equals("Debito")){ // 00191322 se evalua si la tarjeta es de tipo debito
-                    tipoDebito.append(rs.getString("numero_formateado")).append("\n"); // 00191322 se agrega la tarjeta al stringBuilder
-                } else if(rs.getString("tipo_tarjeta").equals("Credito")){ // 00191322 se evalua si la tarjeta es de tipo credito
-                    tipoCredito.append(rs.getString("numero_formateado")).append("\n"); // 00191322 se agrega la tarjeta al stringBuilder
-                }
+            String texto = ""; // 00402523 se inicialia la variable para devolver
+            while (rs.next()) { // 00402523 inicia el bucle para recorrer el resultset
+                float compras = rs.getFloat("compras"); // 00402523 se guarda dato en variable
+                String nombre = rs.getString("nombre"); // 00402523 se guarda dato en variable
+                String fecha = rs.getString("MES"); // 00402523 se guarda dato en variable
+
+                texto += "TOTAL DE COMPRAS: $ " + compras + " DEL CLIENTE " + nombre + " EN EL MES DE " + fecha + "\n"; // 00402523 se concatenan los datos del resultset en una variable
+
+
             }
 
-            texto.append("\nTarjetas de credito: \n").append(tipoCredito.isEmpty() ? " N/A " : tipoCredito ).append("Tarjetas de debito: \n").append(tipoDebito.isEmpty() ? " N/A " : tipoDebito); // 00191322 se crea el string builder final
+            guardarArchivo(texto); // 00402523 se envia el texto del reporte al metodo para guardar archivo
 
-            guardarArchivo(texto.toString()); // 00402523 se envia el texto del reporte al metodo para guardar archivo
-
-            return texto.toString(); // 00402523 se retorna el texto del reporte
+            return texto; // 00402523 se retorna el texto del reporte
         } catch (Exception e) { // 00402523 catch por si ocurre un error SQL
             e.printStackTrace(); // 00402523 se imprime el error
         }
@@ -97,7 +82,7 @@ public class ReporteC implements ReporteInterfaz{
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()); // 00402523 se genera fecha y hora para guardar reporte
 
-            File archivoRuta = new File(".\\reportes" + "\\" + "reporte-C-" + timeStamp + ".txt"); // 00402523 direccion y nombre para guardar archivo
+            File archivoRuta = new File(".\\reportes" + "\\" + "reporte-B-" + timeStamp + ".txt"); // 00402523 direccion y nombre para guardar archivo
             System.out.println(archivoRuta); // 00402523 se imprime la ruta del archivo en consola
             FileWriter escritor = new FileWriter(archivoRuta); // 00402523 se crea el archivo
 
