@@ -79,168 +79,154 @@ public class TarjetaControlador {
         // 00084020 retorna la lista numeros tarjeta
     }
 
-    public String obtenerNumeroTarjetaPorId(int id) {
-        StringBuilder numero = new StringBuilder();
-        try {
-            String query = "SELECT numero FROM tarjeta WHERE id = ?;";
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
-
-            pst.setInt(1, id);
-
-            ResultSet rs = pst.executeQuery(query);
-
-            while (rs.next()) {
-                numero.append(rs.getString("numero"));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
-        }
-        return numero.toString();
-    }
 
     public List<Tarjeta> obtenerTarjetas() {
+        // 00084020 metodo para otener las tarjetas
         List<Tarjeta> tarjetas = new ArrayList<>();
+        // 00084020 crea nueva lista para tarjetas
         try {
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
-            String query = "SELECT ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " +
-                    "FROM tarjeta ta " +
-                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +
-                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id ;";
+            Statement stmt = DatabaseConnection.getConnection().createStatement();// 00084020 se crea un statement
+            String query = "SELECT ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " + // 00084020 se crea query
+                    "FROM tarjeta ta " +// 00084020 se crea query
+                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " + // 00084020 se crea query
+                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id ;";// 00084020 se crea query
 
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery(query); // 00084020 se ejecuta statement y se guarda Resultset
 
-            leerTarjetas(tarjetas, rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
+            leerTarjetas(tarjetas, rs); // 00084020 se lee los datos de resultset
+        } catch (SQLException e) {// 00084020 hace catch la SQLEexception
+            e.printStackTrace();// 00084020 se imprime el stack trace
+        } finally { // 00084020 cuando se termina el bloque try-catch se ejecutara esto 
+            DatabaseConnection.closeConnection();// 00084020 se llama a la clase databaseconnection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return tarjetas;
+        return tarjetas; // 00084020 se devuelven las tarjetass
     }
 
-    public List<Tarjeta> buscarTarjetas(String termino) {
-        List<Tarjeta> tarjetas = new ArrayList<>();
+    public List<Tarjeta> buscarTarjetas(String termino) {// 00084020 metodo para buscar tarjetass
+        List<Tarjeta> tarjetas = new ArrayList<>();// 00084020 se crea una lista de tipo tarjetas
         try {
-            String query = "SELECT  ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " +
-                    "FROM tarjeta ta " +
-                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +
-                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id " +
-                    "WHERE numero LIKE ? " +
-                    "OR codigo LIKE ?" +
-                    "OR cl.nombre LIKE ?" +
-                    "OR fa.tipo LIKE ?" +
-                    "OR ta.tipo_tarjeta LIKE ?;";
+            String query = "SELECT  ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " + // 00084020 se crea query
+                    "FROM tarjeta ta " + // 00084020 se crea query
+                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +// 00084020 se crea query
+                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id " + // 00084020 se crea query
+                    "WHERE numero LIKE ? " +// 00084020 se crea query
+                    "OR codigo LIKE ?" + // 00084020 se crea query
+                    "OR cl.nombre LIKE ?" + // 00084020 se crea query
+                    "OR fa.tipo LIKE ?" + // 00084020 se crea query
+                    "OR ta.tipo_tarjeta LIKE ?;";// 00084020 se crea query
 
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00084020 se crea un prepared statement y se le pasa la query
 
-            pst.setString(1, "%" + termino + "%");
-            pst.setString(2, "%" + termino + "%");
-            pst.setString(3, "%" + termino + "%");
-            pst.setString(4, "%" + termino + "%");
-            pst.setString(5, "%" + termino + "%");
+            pst.setString(1, "%" + termino + "%");// 00084020 se asigna parametro al prepared statement
+            pst.setString(2, "%" + termino + "%");// 00084020 se asigna parametro al prepared statement
+            pst.setString(3, "%" + termino + "%");// 00084020 se asigna parametro al prepared statement
+            pst.setString(4, "%" + termino + "%");// 00084020 se asigna parametro al prepared statement
+            pst.setString(5, "%" + termino + "%");// 00084020 se asigna parametro al prepared statement
 
-            ResultSet rs = pst.executeQuery();
+            ResultSet rs = pst.executeQuery(); // 00084020 se ejecuta statement y se guarda en ResultSet
 
-            leerTarjetas(tarjetas, rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
+            leerTarjetas(tarjetas, rs); // 00084020 se lee los datos Resultset
+        } catch (SQLException e) { // 00084020 hace catch la SQLEexception
+            e.printStackTrace();// 00084020 se imprime el stack trace
+        } finally {// 00084020 cuando se termina el bloque try-catch se ejecutara esto 
+            DatabaseConnection.closeConnection(); // 00084020 se llama la clase databaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return tarjetas;
+        return tarjetas; // 00084020 se devuelven las tarjetas
     }
 
-    private void leerTarjetas(List<Tarjeta> tarjetas, ResultSet rs) throws SQLException {
-        while (rs.next()) {
-            Tarjeta tarjeta = new Tarjeta();
-            tarjeta.setId(rs.getInt("id"));
-            tarjeta.setNumero(rs.getString("numero"));
-            tarjeta.setFechaVencimiento(dateAString(rs.getDate("fechaVencimiento")));
-            tarjeta.setCodigo(rs.getString("codigo"));
-            tarjeta.setFacilitadorId(rs.getInt("facilitador_id"));
-            tarjeta.setClienteId(rs.getInt("cliente_id"));
-            tarjeta.setNombreCliente(rs.getString("nombre"));
-            tarjeta.setNombreFacilitador(rs.getString("tipo"));
-            tarjeta.setTipoTarjeta(rs.getString("tipo_tarjeta"));
-            tarjetas.add(tarjeta);
+    private void leerTarjetas(List<Tarjeta> tarjetas, ResultSet rs) throws SQLException { // 00084020 metodo para leer resultset
+        while (rs.next()) {// 00084020 se ejecuta mientras el resultset tenga datos
+            Tarjeta tarjeta = new Tarjeta();// 00084020 se ejecuta la instancia tarjeta
+            tarjeta.setId(rs.getInt("id"));// 00084020 se asigna el id
+            tarjeta.setNumero(rs.getString("numero"));// 00084020 se asigna el numero
+            tarjeta.setFechaVencimiento(dateAString(rs.getDate("fechaVencimiento")));// 00084020 se asigna la fecha de vencimiento
+            tarjeta.setCodigo(rs.getString("codigo")); // 00084020 se asigna el codigo
+            tarjeta.setFacilitadorId(rs.getInt("facilitador_id")); // 00084020 se asigna el facitador_id
+            tarjeta.setClienteId(rs.getInt("cliente_id")); // 00084020 se asigna el cliente_id
+            tarjeta.setNombreCliente(rs.getString("nombre"));// 00084020 se asigna el nombre
+            tarjeta.setNombreFacilitador(rs.getString("tipo"));// 00084020 se asigna el tipo
+            tarjeta.setTipoTarjeta(rs.getString("tipo_tarjeta"));// 00084020 se asigna el tipo de tarjeta
+            tarjetas.add(tarjeta); // 00084020 se agrega una tarjeta
         }
     }
 
-    public boolean persistirTarjeta(Tarjeta tarjeta) {
+    public boolean persistirTarjeta(Tarjeta tarjeta) { // 00084020 metodo para guardar / actualizar la compra
         try {
-            String query;
-            int result;
-            if(Objects.isNull(tarjeta.getId())) {
-                query = "INSERT INTO tarjeta (numero, fechaVencimiento, codigo, facilitador_id, cliente_id, tipo_tarjeta) VALUES (?, ?, ?, ?, ?, ?);";
+            String query; // 00084020 string para el query
+            int result;// 00084020 resultado que determina si salio bien o mal la tarjeta
+            if(Objects.isNull(tarjeta.getId())) {// 00084020 si id es nulo, es un insert
+                query = "INSERT INTO tarjeta (numero, fechaVencimiento, codigo, facilitador_id, cliente_id, tipo_tarjeta) VALUES (?, ?, ?, ?, ?, ?);"; // 00084020 query para insert
             } else {
-                query = "UPDATE tarjeta SET numero = ?, fechaVencimiento = ?, codigo = ?, facilitador_id = ?, cliente_id = ?, tipo_tarjeta = ? WHERE id = ?;";
+                query = "UPDATE tarjeta SET numero = ?, fechaVencimiento = ?, codigo = ?, facilitador_id = ?, cliente_id = ?, tipo_tarjeta = ? WHERE id = ?;";// 00084020 query para update
             }
 
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
-            pst.setString(1, tarjeta.getNumero());
-            pst.setDate(2, java.sql.Date.valueOf(stringALocalDate(tarjeta.getFechaVencimiento())));
-            pst.setString(3, tarjeta.getCodigo());
-            pst.setInt(4, tarjeta.getFacilitadorId());
-            pst.setInt(5, tarjeta.getClienteId());
-            pst.setString(6, tarjeta.getTipoTarjeta());
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);// 00084020  preparedstatement con la query
+            pst.setString(1, tarjeta.getNumero());// 00084020 se asigna parametro 1 numero
+            pst.setDate(2, java.sql.Date.valueOf(stringALocalDate(tarjeta.getFechaVencimiento()))); // 00084020 se asigna el parametro 2 fecha vencimiento
+            pst.setString(3, tarjeta.getCodigo());// 00084020 se asigna el parametro 3 codigo
+            pst.setInt(4, tarjeta.getFacilitadorId());// 00084020 se asigna el parametro 4 facilitador
+            pst.setInt(5, tarjeta.getClienteId());// 00084020 se asigna el parametro 5 cliente
+            pst.setString(6, tarjeta.getTipoTarjeta());// 00084020 se asigna el parametro 6 tipo tarjeta
 
-            if(Objects.nonNull(tarjeta.getId())) {
-                pst.setInt(7, tarjeta.getId());
+            if(Objects.nonNull(tarjeta.getId())) {// 00084020 si no es nulo, es un update
+                pst.setInt(7, tarjeta.getId()); // 00084020 se asigna el parametro 7 id
             }
 
-            result = pst.executeUpdate();
+            result = pst.executeUpdate();// 00084020 se ejecuta el prepared statement
 
-            if(result > 0) {
-                System.out.println("EXITO");
-                return true;
+            if(result > 0) { // 00084020 si el resultset fue exitoso es mayor a 0
+                System.out.println("EXITO");// 00084020 se imprime en consola
+                return true;// 00084020 se devuelve el exito
             } else {
-                System.out.println("FRACASO");
-                return false;
+                System.out.println("FRACASO");// 00084020 se imprime en consola
+                return false;// 00084020 se  devuelve el fracaso
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) { // 00084020 se hace catch la exception  SQLException
+            e.printStackTrace(); // 00084020 Se imprime el stack trace
+        } finally { // 00084020 cuando se termina el bloque try-catch se ejecutara esto
+            DatabaseConnection.closeConnection(); // 00084020 se llama a la clase databaseconnection y se cierra la coneccion con el metodo estatico closeConnection()
         }
-        return true;
+        return true;// 00084020 se devuelve true si todo salio bien
     }
 
-    public boolean eliminarTarjeta(Integer idTarjeta) {
+    public boolean eliminarTarjeta(Integer idTarjeta) {// 00084020 metodo para eliminar la compra
         try {
-            String query = "DELETE FROM tarjeta WHERE id = ?";
-            int result;
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
+            String query = "DELETE FROM tarjeta WHERE id = ?";// 00084020 string para la query delete
+            int result;// 00084020 resultado que determina si salio bien o mal la transaccion
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);// 00084020 preparedstatemen con la query
 
-            pst.setInt(1, idTarjeta);
+            pst.setInt(1, idTarjeta);// 00084020 se asigna parametro 1 id
 
-            result =  pst.executeUpdate();
+            result =  pst.executeUpdate(); // 00084020 se ejecuta el prepared statement
 
-            if(result > 0) {
-                System.out.println("EXITO");
-                return true;
+            if(result > 0) {// 00084020 si el result fue exitoso es mayor a 0
+                System.out.println("EXITO"); // 00084020 se imprime en consola
+                return true; // 00084020 se devuelve el exito
             } else {
-                System.out.println("FRACASO");
-                return false;
+                System.out.println("FRACASO");// 00084020 se imprime en consola
+                return false;// 00084020 se devuelve el fracaso
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) {// 00084020 se asigna la execpcion SQLException
+            e.printStackTrace();// 00084020 se imprime el stack trace
+        } finally {// 00084020 cuando se termina el bloque try-catch se ejecutara esto
+            DatabaseConnection.closeConnection();// 00084020 se llama la clase  databaseconnection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return true;
+        return true; // 00084020si todo salio bien, devuelve true
     }
 
     public String dateAString(Date fecha) {
+        // 00084020 metodo para convertir fecha a string
         SimpleDateFormat formato = new SimpleDateFormat("MM/yy");
+        // 00084020 creacion formato fecha
         return formato.format(fecha);
+        // 00084020 formateo y retorno de la fecha como string
     }
 
-    private LocalDate stringALocalDate(String fechaString) {
+    private LocalDate stringALocalDate(String fechaString) {// 00084020 metodo para convertir string a localdate
         LocalDate fecha = LocalDate.parse("01/" + fechaString, DateTimeFormatter.ofPattern("dd/MM/yy"));
+        // 00084020 convierte string a localdate
         return fecha.with(TemporalAdjusters.firstDayOfMonth());
+        // 00084020 retorna el primer dia del mes
     }
 }
