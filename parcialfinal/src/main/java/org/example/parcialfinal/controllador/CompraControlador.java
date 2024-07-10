@@ -41,7 +41,7 @@ public class CompraControlador { // 00191322 Clase Compra controlador
                     "OR descripcion LIKE ? " + // 00191322 query con descripcion
                     "OR ta.numero LIKE ? ;"; // 00191322 query con numero
 
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00191322 Se crea un prepared Stament y se le pasa la query
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00191322 Se crea un prepared Statement y se le pasa la query
 
             pst.setString(1, "%" + termino + "%"); // 00191322 Se asigna parametro al prepared Statement
             pst.setString(2, "%" + termino + "%"); // 00191322 Se asigna parametro al prepared Statement
