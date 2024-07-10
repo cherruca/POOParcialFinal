@@ -23,9 +23,9 @@ public class ReporteC implements ReporteInterfaz{
                     "cliente_id, " +
                     "tipo_tarjeta," +
                     "cl.nombre " +
-                    "FROM tarjeta ta" +
-                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id" +
-                    "WHERE cliente_id = ?;"; // 00402523 se crea la consulta
+                    "FROM tarjeta ta " +
+                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +
+                    "WHERE cliente_id = ?"; // 00402523 se crea la consulta
             PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00402523 se crea la consulta preparada con la clase de la conexion a la base
 
             pst.setInt(1, reporteParametro.getId()); // 00402523 se envia parametro
@@ -59,7 +59,7 @@ public class ReporteC implements ReporteInterfaz{
                 }
             }
 
-            texto.append("Tarjetas de credito:\n").append(tipoCredito.isEmpty() ? "N/A" : tipoCredito ).append("Tarjetas de debito:\n").append(tipoDebito.isEmpty() ? "N/A" : tipoDebito); // 00191322 se crea el string builder final
+            texto.append("\nTarjetas de credito: \n").append(tipoCredito.isEmpty() ? " N/A " : tipoCredito ).append("Tarjetas de debito: \n").append(tipoDebito.isEmpty() ? " N/A " : tipoDebito); // 00191322 se crea el string builder final
 
             guardarArchivo(texto.toString()); // 00402523 se envia el texto del reporte al metodo para guardar archivo
 

@@ -222,7 +222,7 @@
                                                                         <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
                                                                      </HBox.margin>
                                                                   </Label>
-                                                                  <Button fx:id="btnReporteC" mnemonicParsing="false" text="Generar reporte">
+                                                                  <Button fx:id="btnReporteC" mnemonicParsing="false" onAction="#obtenerReporteC" text="Generar reporte">
                                                                      <HBox.margin>
                                                                         <Insets left="50.0" top="60.0" />
                                                                      </HBox.margin>
