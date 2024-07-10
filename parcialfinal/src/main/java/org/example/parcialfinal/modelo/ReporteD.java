@@ -31,12 +31,12 @@ public class ReporteD implements ReporteInterfaz {
     @Override // 00402523 sobrescribir el metodo de la interfaz
     public void generarConsulta(ReporteParametro reporteParametro) { // 00402523 metodo para generar la consulta mysql
         try { // 00402523 inicia try catch para la consulta mysql
-            String query = "SELECT c.id AS cliente_id, c.nombre AS nombre_cliente, COUNT(co.id) AS cantidad_compras, SUM(co.monto) AS total_gastado FROM cliente c JOIN  tarjeta t ON c.id = t.cliente_id JOIN facilitador f ON t.facilitador_id = f.id JOIN compra co ON t.id = co.tarjeta_id WHERE f.tipo = ? GROUP BY c.id, c.nombre;"; // 00402523 se crea la consulta
+            String query = "SELECT c.id AS cliente_id, c.nombre AS nombre_cliente, COUNT(co.id) AS cantidad_compras, SUM(co.monto) AS total_gastado FROM cliente c JOIN tarjeta t ON c.id = t.cliente_id JOIN facilitador f ON t.facilitador_id = f.id JOIN compra co ON t.id = co.tarjeta_id WHERE c.facilitador_id = ? GROUP BY c.id, c.nombre;"; // 00402523 se crea la consulta
             PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00402523 se crea la consulta preparada con la clase de la conexion a la base
 
             tipo = reporteParametro.getTipo(); // 00191322 se setea el tipo de tarjeta al atributo de la clase
 
-            pst.setString(1, reporteParametro.getTipo()); // 00402523 se envia parametro
+            pst.setInt(1, reporteParametro.getId()); // 00402523 se envia parametro
 
             ResultSet rs = pst.executeQuery(); // 00402523 se ejecuta la sentencia preparada
 
