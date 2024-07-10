@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="655.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.parcialfinal.HelloController">
+   <children>
+      <VBox fx:id="vbMenu" prefHeight="655.0" prefWidth="924.0">
+         <children>
+            <HBox prefHeight="658.0" prefWidth="924.0">
+               <children>
+                  <TabPane prefHeight="656.0" prefWidth="929.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab onSelectionChanged="#vistaClientes" text="Clientes">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
+                                 <children>
+                                    <TableView fx:id="tblClientes" layoutX="12.0" layoutY="310.0" prefHeight="302.0" prefWidth="900.0">
+                                      <columns>
+                                          <TableColumn fx:id="tcClienteId" editable="false" prefWidth="72.79998970031738" resizable="false" text="Id" />
+                                        <TableColumn fx:id="tcClienteNombre" editable="false" prefWidth="264.7999801635742" resizable="false" text="Nombre" />
+                                          <TableColumn fx:id="tcClienteTelefono" editable="false" minWidth="0.0" prefWidth="152.0" resizable="false" text="Telefono" />
+                                          <TableColumn fx:id="tcClienteDireccion" editable="false" minWidth="0.0" prefWidth="409.6000061035156" resizable="false" text="Direccion" />
+                                      </columns>
+                                    </TableView>
+                                    <TextField fx:id="txtBuscarCliente" layoutX="496.0" layoutY="277.0" prefHeight="26.0" prefWidth="352.0" />
+                                    <Button fx:id="btnBuscarCliente" layoutX="858.0" layoutY="278.0" mnemonicParsing="false" onAction="#buscarCliente" text="Buscar" />
+                                    <Button fx:id="btnGuardarCliente" layoutX="538.0" layoutY="43.0" mnemonicParsing="false" onAction="#agregarCliente" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
+                                    <Button fx:id="btnEliminarCliente" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" onAction="#eliminarCliente" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <TextArea fx:id="txtAreaDireccion" layoutX="20.0" layoutY="165.0" prefHeight="112.0" prefWidth="466.0" />
+                                    <TextField fx:id="txtClienteNombre" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="467.0" />
+                                    <TextField fx:id="txtClienteTelefono" layoutX="20.0" layoutY="102.0" prefHeight="26.0" prefWidth="219.0" />
+                                    <Label layoutX="20.0" layoutY="22.0" text="Nombre:" />
+                                    <Label layoutX="20.0" layoutY="82.0" text="Telefono:" />
+                                    <Label layoutX="20.0" layoutY="140.0" text="Direccion:" />
+                                    <TextField fx:id="txtClienteId" editable="false" layoutX="112.0" layoutY="9.0" prefHeight="26.0" prefWidth="26.0" style="visibility: false;" />
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab onSelectionChanged="#vistaTarjetas" text="Tarjetas">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
+                                 <children>
+                                    <TableView fx:id="tblTarjetas" layoutX="12.0" layoutY="245.0" prefHeight="367.0" prefWidth="900.0">
+                                       <columns>
+                                          <TableColumn fx:id="tcTarjetaId" prefWidth="54.399991035461426" resizable="false" text="Id" />
+                                          <TableColumn fx:id="tcTarjetaNum" prefWidth="263.2000274658203" resizable="false" text="Numero de tarjeta" />
+                                          <TableColumn fx:id="tcTarjetaFechaVen" minWidth="8.79998779296875" prefWidth="134.39996337890625" resizable="false" text="Fecha de Vencimiento" />
+                                          <TableColumn fx:id="tcTarjetaCvc" minWidth="0.0" prefWidth="58.39996337890625" resizable="false" text="CVC" />
+                                          <TableColumn fx:id="tcTarjetaTipo" minWidth="0.0" prefWidth="104.79998779296875" resizable="false" text="Tipo de Tarjeta" />
+                                          <TableColumn fx:id="tcTarjetaFacilitador" minWidth="0.0" prefWidth="88.800048828125" resizable="false" text="Facilitador" />
+                                          <TableColumn fx:id="tcTarjetaNomCliente" maxWidth="236.7999267578125" minWidth="0.0" prefWidth="196.79998779296875" resizable="false" text="Nombre Cliente" />
+                                       </columns>
+                                    </TableView>
+                                    <TextField fx:id="txtBuscarTarjeta" layoutX="496.0" layoutY="212.0" prefHeight="26.0" prefWidth="352.0" />
+                                    <Button fx:id="btnBuscarTarjeta" layoutX="858.0" layoutY="213.0" mnemonicParsing="false" onAction="#buscarTarjeta" text="Buscar" />
+                                    <Button fx:id="btnGuardarTarjeta" layoutX="387.0" layoutY="124.0" mnemonicParsing="false" onAction="#agregarTarjeta" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
+                                    <Button fx:id="btnEliminarTarjeta" layoutX="387.0" layoutY="163.0" mnemonicParsing="false" onAction="#eliminarTarjeta" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <TextField fx:id="txtNumTarjeta" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="324.0" />
+                                    <TextField fx:id="txtCvc" layoutX="202.0" layoutY="102.0" prefHeight="26.0" prefWidth="139.0" />
+                                    <TextField fx:id="txtFechaVencimiento" layoutX="20.0" layoutY="102.0" prefHeight="26.0" prefWidth="166.0" />
+                                    <Label layoutX="20.0" layoutY="22.0" text="Numero de tarjeta:" />
+                                    <Label layoutX="202.0" layoutY="81.0" text="CVC:" />
+                                    <Label layoutX="20.0" layoutY="82.0" text="Fecha de Vencimiento:" />
+                                    <Label layoutX="20.0" layoutY="140.0" text="Tipo de Tarjeta:" />
+                                    <ComboBox fx:id="cbTipoTarjeta" layoutX="20.0" layoutY="165.0" prefHeight="26.0" prefWidth="166.0" />
+                                    <Label layoutX="202.0" layoutY="139.0" text="Facilitador:" />
+                                    <ComboBox fx:id="cbFacilitador" layoutX="202.0" layoutY="164.0" prefHeight="26.0" prefWidth="139.0" />
+                                    <ComboBox fx:id="cbClientes" layoutX="387.0" layoutY="43.0" prefHeight="26.0" prefWidth="278.0" />
+                                    <Label layoutX="387.0" layoutY="22.0" text="Cliente:" />
+                                    <TextField fx:id="txtTarjetaId" editable="false" layoutX="128.0" layoutY="1.0" prefHeight="2.0" prefWidth="22.0" style="visibility: false;" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                      </Tab>
+                        <Tab onSelectionChanged="#vistaCompras" text="Compras">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
+                                 <children>
+                                    <TableView fx:id="tblCompras" layoutX="12.0" layoutY="310.0" prefHeight="302.0" prefWidth="900.0">
+                                       <columns>
+                                          <TableColumn fx:id="tcCompraId" prefWidth="60.00003242492676" resizable="false" text="Id" />
+                                          <TableColumn fx:id="tcCompraTarjeta" prefWidth="220.79998016357422" resizable="false" text="Tarjeta Utilizada" />
+                                          <TableColumn fx:id="tcCompraMonto" minWidth="8.79998779296875" prefWidth="127.99993896484375" resizable="false" text="Monto" />
+                                          <TableColumn fx:id="tcCompraFechaCompra" minWidth="0.0" prefWidth="167.20010375976562" resizable="false" text="Fecha de Compra" />
+                                          <TableColumn fx:id="tcCompraDescripcion" minWidth="0.0" prefWidth="343.199951171875" resizable="false" text="Descripcion" />
+                                       </columns>
+                                    </TableView>
+                                    <TextField fx:id="txtBuscarCompra" layoutX="496.0" layoutY="277.0" prefHeight="26.0" prefWidth="352.0" />
+                                    <Button fx:id="btnBuscarCompra" layoutX="858.0" layoutY="278.0" mnemonicParsing="false" onAction="#buscarCompra" text="Buscar" />
+                                    <Button fx:id="btnGuardarCompra" layoutX="538.0" layoutY="43.0" mnemonicParsing="false" onAction="#agregarCompra" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
+                                    <Button fx:id="btnEliminarCompra" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" onAction="#eliminarCompra" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <TextArea fx:id="txtAreaDescripcion" layoutX="20.0" layoutY="165.0" prefHeight="112.0" prefWidth="466.0" />
+                                    <TextField fx:id="txtMonto" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="219.0" />
+                                    <Label layoutX="20.0" layoutY="22.0" text="Monto:" />
+                                    <Label layoutX="265.0" layoutY="21.0" text="Fecha de la compra:" />
+                                    <Label layoutX="20.0" layoutY="82.0" text="Tarjeta Utilizada:" />
+                                    <Label layoutX="20.0" layoutY="140.0" text="Descripcion:" />
+                                    <DatePicker fx:id="datePickerFechaCompra" layoutX="265.0" layoutY="43.0" prefHeight="26.0" prefWidth="218.0" />
+                                    <ComboBox fx:id="cbTarjetas" layoutX="20.0" layoutY="108.0" prefHeight="26.0" prefWidth="463.0" />
+                                    <TextField fx:id="txtCompraId" editable="false" layoutX="153.0" layoutY="9.0" prefHeight="25.0" prefWidth="26.0" style="visibility: false;" />
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Reportes">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox prefHeight="626.0" prefWidth="924.0">
+                                       <children>
+                                          <HBox prefHeight="66.0" prefWidth="924.0">
+                                             <children>
+                                                <Label text="Seleccione un cliente: ">
+                                                   <HBox.margin>
+                                                      <Insets bottom="15.0" left="15.0" right="15.0" top="30.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                                <ComboBox fx:id="reporteCliente" prefWidth="150.0">
+                                                   <HBox.margin>
+                                                      <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
+                                                   </HBox.margin>
+                                                </ComboBox>
+                                             </children>
+                                          </HBox>
+                                          <Label text="Seleccione el reporte que desea generar (el reporte D no necesita cliente)">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <TabPane prefHeight="159.0" prefWidth="924.0" tabClosingPolicy="UNAVAILABLE">
+                                            <tabs>
+                                              <Tab text="Reporte A">
+                                                <content>
+                                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <HBox prefHeight="131.0" prefWidth="924.0">
+                                                               <children>
+                                                                  <Label text="Fecha inicio: ">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
+                                                                     </HBox.margin>
+                                                                  </Label>
+                                                                  <DatePicker fx:id="reporteAFechaInicio">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                                     </HBox.margin>
+                                                                  </DatePicker>
+                                                                  <Label layoutX="25.0" layoutY="25.0" text="Fecha fin: ">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="15.0" left="15.0" right="15.0" top="25.0" />
+                                                                     </HBox.margin>
+                                                                  </Label>
+                                                                  <DatePicker fx:id="reporteAFechaFin" layoutX="118.0" layoutY="20.0">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
+                                                                     </HBox.margin>
+                                                                  </DatePicker>
+                                                                  <Button fx:id="btnReporteA" mnemonicParsing="false" onAction="#obtenerReporteA" text="Generar reporte">
+                                                                     <HBox.margin>
+                                                                        <Insets left="50.0" top="60.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                </content>
+                                              </Tab>
+                                                <Tab text="Reporte B">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <HBox prefHeight="131.0" prefWidth="924.0">
+                                                               <children>
+                                                                  <Label text="Año/Mes: ">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
+                                                                     </HBox.margin>
+                                                                  </Label>
+                                                                  <DatePicker fx:id="cbReporteBanio">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                                     </HBox.margin>
+                                                                  </DatePicker>
+                                                                  <Button fx:id="btnReporteB" mnemonicParsing="false" onAction="#obtenerReporteB" text="Generar reporte">
+                                                                     <HBox.margin>
+                                                                        <Insets left="50.0" top="60.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Reporte C">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <HBox prefHeight="131.0" prefWidth="924.0">
+                                                               <children>
+                                                                  <Label text="Seleccione un cliente del paso 1.">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
+                                                                     </HBox.margin>
+                                                                  </Label>
+                                                                  <Button fx:id="btnReporteC" mnemonicParsing="false" onAction="#obtenerReporteC" text="Generar reporte">
+                                                                     <HBox.margin>
+                                                                        <Insets left="50.0" top="60.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                                <Tab text="Reporte D">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                         <children>
+                                                            <HBox prefHeight="131.0" prefWidth="924.0">
+                                                               <children>
+                                                                  <Label text="Facilitador: ">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
+                                                                     </HBox.margin>
+                                                                  </Label>
+                                                                  <ComboBox fx:id="cbReporteDfacilitador" prefWidth="150.0">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                                                     </HBox.margin>
+                                                                  </ComboBox>
+                                                                  <Button fx:id="btnReporteD" mnemonicParsing="false" onAction="#obtenerReporteD" text="Generar reporte">
+                                                                     <HBox.margin>
+                                                                        <Insets left="50.0" top="60.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                               </children>
+                                                            </HBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </content>
+                                                </Tab>
+                                            </tabs>
+                                          </TabPane>
+                                          <Label layoutX="25.0" layoutY="91.0" text="Su reporte generado aparecerá en la carpeta ' Reportes' :">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children></AnchorPane>
+                           </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
