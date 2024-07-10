@@ -61,9 +61,12 @@ public class ReporteParametro { // 00191322 Clase Reporte Parametro
 
     public String getTipo() { // 00191322 Metodo obtener tipo
         return tipo; // 00191322 retornar tipo
+
     }
 
     public void setTipo(String tipo) { // 00191322 Metodo setear tipo
         this.tipo = tipo; // 00191322 se setea tipo
+
     }
+
 }
