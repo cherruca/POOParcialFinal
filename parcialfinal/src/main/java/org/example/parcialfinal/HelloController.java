@@ -516,127 +516,132 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void agregarCliente() {
-        String accion;
-        if(verificarCamposConDatos("cliente", "guardar")) {
-            Cliente cliente = new Cliente();
+    protected void agregarCliente() { // 00051316 metodo publico para agregar una compra
+        String accion; // 00051316 cariable para almacenar la accion realizada
+        if(verificarCamposConDatos("cliente", "guardar")) { // 00051316 verifica si los campos requeridos para guardar un clinete estan completos
+            Cliente cliente = new Cliente(); // 00051316 crea una nueva instancia de la clase cliente
 
-            if (Objects.equals(txtClienteId.getText(), "")) {
-                cliente.setId(null);
-                accion = "guardado";
-            } else {
-                cliente.setId(Integer.valueOf(txtClienteId.getText()));
-                accion = "actualizado";
+            if (Objects.equals(txtClienteId.getText(), "")) { // 00051316 verifica si el campo de ID de clienteestá vacío
+                cliente.setId(null); // 00051316 establece el ID de la cliente como nulo
+                accion = "guardado"; // 00051316 Define la acción como guardado
+            } else { // 00051316 de no cumplirse con los compos
+                cliente.setId(Integer.valueOf(txtClienteId.getText())); // 00051316 Convierte y establece el iv de cliente desde el campo de texto
+                accion = "actualizado"; // 00051316 Define la acción como actualizado
             }
 
-            cliente.setNombre(txtClienteNombre.getText());
-            cliente.setTelefono(txtClienteTelefono.getText());
-            cliente.setDireccion(txtAreaDireccion.getText());
+            cliente.setNombre(txtClienteNombre.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
+            cliente.setTelefono(txtClienteTelefono.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
+            cliente.setDireccion(txtAreaDireccion.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
 
-            if(clienteControlador.persistirCliente(cliente)) {
-                lanzarAlerta("Exito", "Cliente " + accion, Alert.AlertType.INFORMATION);
-                limpiarCampos("cliente");
-                obtenerClientes();
-            } else {
-                lanzarAlerta("Cliente no guardado", "Hubo un error al guardar el registro", Alert.AlertType.ERROR);
-            }
-        }
-    }
-
-    @FXML
-    protected void eliminarCliente() {
-        if(verificarCamposConDatos("cliente", "eliminar")){
-            if(clienteControlador.eliminarCliente(Integer.parseInt(txtClienteId.getText()))) {
-                lanzarAlerta("Exito", "Cliente eliminado", Alert.AlertType.INFORMATION);
-                limpiarCampos("cliente");
-                obtenerClientes();
-            } else {
-                lanzarAlerta("Cliente no eliminado", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR);
+            if(clienteControlador.persistirCliente(cliente)) { // 00051316 intenta persistir el cliente usando el controlador de cliente
+                lanzarAlerta("Exito", "Cliente " + accion, Alert.AlertType.INFORMATION); // 00051316 Muestra una alerta de exito
+                limpiarCampos("cliente"); // 00051316 llama al método para limpiar los campos
+                obtenerClientes(); // 00051316 llama al metodo para actualizar la vista de clientes
+            } else { // 00051316 de no cumplirse con los compos
+                lanzarAlerta("Cliente no guardado", "Hubo un error al guardar el registro", Alert.AlertType.ERROR); // 00051316 muestra una alerta de error
             }
         }
     }
 
     @FXML
-    public void agregarTarjeta() {
-        String accion;
-        if(verificarCamposConDatos("tarjeta", "guardar")){
-            Tarjeta tarjeta = new Tarjeta();
-            if (Objects.equals(txtTarjetaId.getText(), "")) {
-                tarjeta.setId(null);
-                accion = "guardada";
-            } else {
-                tarjeta.setId(Integer.valueOf(txtTarjetaId.getText()));
-                accion = "actualizada";
-            }
-
-            tarjeta.setNumero(txtNumTarjeta.getText());
-            tarjeta.setFechaVencimiento(txtFechaVencimiento.getText());
-            tarjeta.setCodigo(txtCvc.getText());
-            tarjeta.setTipoTarjeta(cbTipoTarjeta.getValue());
-            tarjeta.setFacilitadorId(cbFacilitador.getSelectionModel().getSelectedItem().getId());
-            tarjeta.setClienteId(cbClientes.getSelectionModel().getSelectedItem().getId());
-
-            if(tarjetaControlador.persistirTarjeta(tarjeta)) {
-                lanzarAlerta("Exito", "Tarjeta " + accion, Alert.AlertType.INFORMATION);
-                limpiarCampos("tarjeta");
-                obtenerTarjetas();
-            } else {
-                lanzarAlerta("Tarjeta no guardada", "Hubo un error al guardar el registro", Alert.AlertType.ERROR);
+    protected void eliminarCliente() { // 00051316 metodo publico para eliminar un cliente
+        if(verificarCamposConDatos("cliente", "eliminar")){ // 00051316 verifica si los campos requeridos para eliminar un cliente están completos
+            // 00051316 intenta eliminar el cliente usando el controlador de tarjeta
+            if(clienteControlador.eliminarCliente(Integer.parseInt(txtClienteId.getText()))) { // 00051316 intenta convertir el id de cliente a entero y luego eliminarlo
+                lanzarAlerta("Exito", "Cliente eliminado", Alert.AlertType.INFORMATION); // 00051316 muestra una alerta de exito
+                limpiarCampos("cliente"); // 00051316 llama al metodo para limpiar los campos
+                obtenerClientes(); // 00051316 llama al metodo para obtener y actualizar la lista de tarjeta
+            } else { // 00051316 salta si alguno de los datos anteriores no esta completado
+                lanzarAlerta("Cliente no eliminado", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR); // 00051316 muestra una alerta de error
             }
         }
     }
 
     @FXML
-    protected void eliminarTarjeta() {
-        if(verificarCamposConDatos("tarjeta", "eliminar")){
-            if(tarjetaControlador.eliminarTarjeta(Integer.parseInt(txtTarjetaId.getText()))) {
-                lanzarAlerta("Exito", "Tarjeta eliminada", Alert.AlertType.INFORMATION);
-                limpiarCampos("tarjeta");
-                obtenerTarjetas();
-            } else {
-                lanzarAlerta("Tarjeta no eliminada", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR);
+    public void agregarTarjeta() { // 00051316 metodo publico para agregar una compra
+        String accion; // 00051316 variable para almacenar la acción realizada
+
+        if(verificarCamposConDatos("tarjeta", "guardar")){// 00051316 verifica si los campos requeridos para guardar una tarjeta están completos
+            Tarjeta tarjeta = new Tarjeta();// 00051316 Crea una nueva instancia de la clase Tarjeta
+            if (Objects.equals(txtTarjetaId.getText(), "")) {// 00051316 verifica si el campo de id de compra está vacío
+                tarjeta.setId(null);// 00051316 establece el id de la compra como nulo
+                accion = "guardada";// 00051316 define la accion como guardada
+            } else {// 00051316 de lo contrario
+                tarjeta.setId(Integer.valueOf(txtTarjetaId.getText()));// 00051316 convierte y establece el ID de compra desde el campo de texto
+                accion = "actualizada";// 00051316 define la accion como  actualizada
+            }
+
+            tarjeta.setNumero(txtNumTarjeta.getText());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+            tarjeta.setFechaVencimiento(txtFechaVencimiento.getText());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+            tarjeta.setCodigo(txtCvc.getText());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+            tarjeta.setTipoTarjeta(cbTipoTarjeta.getValue());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+            tarjeta.setFacilitadorId(cbFacilitador.getSelectionModel().getSelectedItem().getId());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+            tarjeta.setClienteId(cbClientes.getSelectionModel().getSelectedItem().getId());// 00051316 establece los atributos de la tarjeta desde los campos del formulario
+
+            if(tarjetaControlador.persistirTarjeta(tarjeta)) {// 00051316 intenta persistir la tarejta usando el controlador de tarjeta
+                lanzarAlerta("Exito", "Tarjeta " + accion, Alert.AlertType.INFORMATION);// 00051316 muestra una alerta de exito
+                limpiarCampos("tarjeta");// 00051316 llama al metodo para limpiar los campos
+                obtenerTarjetas();// 00051316 llama al metodo para obtener y actualizar la lista de tarejtas
+            } else {// 00051316 salta si alguno de los datos anteriores no esta completado
+                lanzarAlerta("Tarjeta no guardada", "Hubo un error al guardar el registro", Alert.AlertType.ERROR);// 00051316 muestra una alerta de error
             }
         }
     }
 
     @FXML
-    public void agregarCompra() {
-        String accion;
-        if(verificarCamposConDatos("compra", "guardar")){
-            Compra compra = new Compra();
-            if (Objects.equals(txtCompraId.getText(), "")) {
-                compra.setId(null);
-                accion = "guardada";
-            } else {
-                compra.setId(Integer.valueOf(txtCompraId.getText()));
-                accion = "actualizada";
-            }
-
-            compra.setMonto(Double.valueOf(txtMonto.getText()));
-            compra.setDescripcion(txtAreaDescripcion.getText());
-            compra.setFechaDeCompra(String.valueOf(datePickerFechaCompra.getValue()));
-            compra.setIdTarjeta(cbTarjetas.getSelectionModel().getSelectedItem().getId());
-
-            if(compraControlador.persistirCompra(compra)) {
-                lanzarAlerta("Exito", "Compra " + accion, Alert.AlertType.INFORMATION);
-                limpiarCampos("compra");
-                comboboxVistaCompras();
-                obtenerTarjetas();
-            } else {
-                lanzarAlerta("Compra no guardada", "Hubo un error al guardar el registro", Alert.AlertType.ERROR);
+    protected void eliminarTarjeta() { // 00051316 metodo para eliminar una tarjeta
+        if(verificarCamposConDatos("tarjeta", "eliminar")){ // 00051316 verifica si los campos requeridos para eliminar una tarjeta están completos
+            // 00051316 intenta eliminar la compra usando el controlador de tarjeta
+            if(tarjetaControlador.eliminarTarjeta(Integer.parseInt(txtTarjetaId.getText()))) { // 00051316 Intenta convertir el ID de tarjeta a entero y luego eliminarla
+                lanzarAlerta("Exito", "Tarjeta eliminada", Alert.AlertType.INFORMATION);// 00051316 alerta de éxito
+                limpiarCampos("tarjeta"); // 00051316 llama al metodo para limpiar los campos
+                obtenerTarjetas(); // 00051316 llama al metodo para obtener y actualizar la lista de tarjetas
+            } else { // 00051316 salta si alguno de los datos anteriores no esta completado
+                lanzarAlerta("Tarjeta no eliminada", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR); // 00051316 muestra una alerta de error
             }
         }
     }
 
     @FXML
-    protected void eliminarCompra() {
-        if(verificarCamposConDatos("compra", "eliminar")){
-            if(compraControlador.eliminarCompra(Integer.parseInt(txtCompraId.getText()))) {
-                lanzarAlerta("Exito", "Compra eliminada", Alert.AlertType.INFORMATION);
-                limpiarCampos("compra");
-                obtenerTarjetas();
-            } else {
-                lanzarAlerta("Compra no eliminada", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR);
+    public void agregarCompra() { // 00051316  metodo para agregar una compra
+        String accion; // 00051316  variable para almacenar la accion realizada (guardada o actualizada)
+        if(verificarCamposConDatos("compra", "guardar")){ // 00051316  verifica si los campos requeridos para guardar una compra estan completados
+            Compra compra = new Compra(); // 00051316 se crea una nueva instancia de la clase Compra
+            if (Objects.equals(txtCompraId.getText(), "")) { // 00051316 verifica si el campo de id de compra esta vacío
+                compra.setId(null); // 00051316 establece el id de la compra como nulo
+                accion = "guardada"; // 00051316 define la acción como guardada
+            } else { // 00051316 de no cumplirse con los compos
+                compra.setId(Integer.valueOf(txtCompraId.getText())); // 00051316 convierte y establece el id de compra desde el campo de texto
+                accion = "actualizada"; // 00051316 define la acción como actualizada
+            }
+
+            compra.setMonto(Double.valueOf(txtMonto.getText())); // 00051316 establece los atributos de la compra desde los campos del formulario
+            compra.setDescripcion(txtAreaDescripcion.getText()); // 00051316 establece los atributos de la compra desde los campos del formulario
+            compra.setFechaDeCompra(String.valueOf(datePickerFechaCompra.getValue())); // 00051316 establece los atributos de la compra desde los campos del formulario
+            compra.setIdTarjeta(cbTarjetas.getSelectionModel().getSelectedItem().getId()); // 00051316  etablece los atributos de la compra desde los campos del formulario
+
+            if(compraControlador.persistirCompra(compra)) { // 00051316 intenta persistir la compra usando el controlador de compras
+                lanzarAlerta("Exito", "Compra " + accion, Alert.AlertType.INFORMATION); // 00051316 muestra una alerta de exito
+                limpiarCampos("compra"); // 00051316 llama al metodo para limpiar los campos
+                comboboxVistaCompras(); // 00051316 llama al metodo para actualizar la vista de compras en el combobox
+                obtenerCompras(); // 00051316 llama al metodo para obtener y actualizar la lista de compras
+            } else { // 00051316 de no cumplirse con los compos
+                lanzarAlerta("Compra no guardada", "Hubo un error al guardar el registro", Alert.AlertType.ERROR); // 00051316 muestra una alerta de error
+            }
+        }
+    }
+
+    @FXML
+    protected void eliminarCompra() { //00191322 metodo para eliminar una compra
+
+        if(verificarCamposConDatos("compra", "eliminar")){ //00191322 verifica si los campos requeridos para eliminar una compra están completos
+            // 000191322 intenta eliminar la compra usando el controlador de compras
+            if(compraControlador.eliminarCompra(Integer.parseInt(txtCompraId.getText()))) { //00191322 Intenta convertir el ID de compra a entero y luego eliminarla
+                lanzarAlerta("Exito", "Compra eliminada", Alert.AlertType.INFORMATION); //00191322  alerta de éxito
+                limpiarCampos("compra"); //00191322 llama al metodo para limpiar los campos
+                obtenerCompras(); //00191322 Llama al metodo para obtener y actualizar la lista de compras
+            } else { //00191322 salta si alguno de los datos anteriores no esta completado
+                lanzarAlerta("Compra no eliminada", "Hubo un error al eliminar el registro", Alert.AlertType.ERROR); //00191322 llama al metodo para mostrar una alerta de error
             }
         }
     }
@@ -682,109 +687,110 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    private void limpiarCampos(String modelo) {
-        if(Objects.equals(modelo, "cliente")) {
-            txtClienteId.clear();
-            txtClienteNombre.clear();
-            txtClienteTelefono.clear();
-            txtAreaDireccion.clear();
-        } else if (Objects.equals(modelo, "tarjeta")) {
-            txtTarjetaId.clear();
-            txtNumTarjeta.clear();
-            txtFechaVencimiento.clear();
-            txtCvc.clear();
-            cbClientes.setConverter(null);
-            cbTipoTarjeta.setConverter(null);
-            cbFacilitador.setConverter(null);
-            cbClientes.valueProperty().set(null);
-            cbTipoTarjeta.valueProperty().set(null);
-            cbFacilitador.valueProperty().set(null);
-            comboboxVistaTarjetas();
-        } else if (Objects.equals(modelo, "tarjeta-campos")) {
-            txtTarjetaId.clear();
-            txtNumTarjeta.clear();
-            txtFechaVencimiento.clear();
-            txtCvc.clear();
-            cbClientes.valueProperty().set(null);
-            cbTipoTarjeta.valueProperty().set(null);
-            cbFacilitador.valueProperty().set(null);
-        } else if (Objects.equals(modelo, "compra")) {
-            txtCompraId.clear();
-            txtMonto.clear();
-            txtAreaDescripcion.clear();
-            datePickerFechaCompra.setValue(null);
-            cbTarjetas.setConverter(null);
-            cbTarjetas.valueProperty().set(null);
-            comboboxVistaCompras();
+    private void limpiarCampos(String modelo) { //00191322 declaramo el metodo limpiarCampos que recibe un parámetro modelo de tipo String
+        if(Objects.equals(modelo, "cliente")) { //00191322 verificar si el modelo es cliente
+            txtClienteId.clear(); //00191322 limpiamos el campo txtClienteId
+            txtClienteNombre.clear(); //00191322 limpia el campo txtClienteNombre
+            txtClienteTelefono.clear(); //00191322 limpia el campo txtClienteTelefono
+            txtAreaDireccion.clear(); //00191322 limpia el campo txtAreaDireccion
+        } else if (Objects.equals(modelo, "tarjeta")) { //00191322 verifica si el modelo es "tarjeta"
+            txtTarjetaId.clear(); //00191322 limpia el campo txtTarjetaId
+            txtNumTarjeta.clear(); //00191322 limpia el campo txtNumTarjeta
+            txtFechaVencimiento.clear(); //00191322 limpia el campo txtFechaVencimiento
+            txtCvc.clear(); //00191322 limpia el campo txtCvc
+            cbClientes.setConverter(null); //00191322 resetear el convertidor del combobox cbClientes
+            cbTipoTarjeta.setConverter(null); //00191322 resetear el convertidor del combobox cbTipoTarjeta
+            cbFacilitador.setConverter(null); //00191322 resetear el convertidor del combobox cbFacilitador
+            cbClientes.valueProperty().set(null); //00191322 limpiar la selección en cbClientes
+            cbTipoTarjeta.valueProperty().set(null); //00191322 limpiar la selección en cbTipoTarjeta
+            cbFacilitador.valueProperty().set(null); //00191322 limpiar la selección en cbFacilitador
+            comboboxVistaTarjetas(); //00191322 llamar al metodo comboboxVistaTarjetas
+        } else if (Objects.equals(modelo, "tarjeta-campos")) { //00191322 verificar si el modelo es "tarjeta-campos"
+            txtTarjetaId.clear(); //00191322 limpiar el campo txtTarjetaId
+            txtNumTarjeta.clear(); //00191322 limpia rel campo txtNumTarjeta
+            txtFechaVencimiento.clear(); //00191322 limpiarel campo txtFechaVencimiento
+            txtCvc.clear(); //00191322 limpiar el campo txtCvc
+            cbClientes.valueProperty().set(null); //00191322 limpiar la selección en cbClientes
+            cbTipoTarjeta.valueProperty().set(null); //00191322 limpiar la selección en cbTipoTarjeta
+            cbFacilitador.valueProperty().set(null); //00191322 limpiar la selección en cbFacilitador
+        } else if (Objects.equals(modelo, "compra")) { //00191322  verificar si el modelo es "compra"
+            txtCompraId.clear(); //00191322 limpiar el campo txtCompraId
+            txtMonto.clear(); //00191322 limpiar el campo txtMonto
+            txtAreaDescripcion.clear(); //00191322 limpiar el campo txtAreaDescripcion
+            datePickerFechaCompra.setValue(null); //00191322 limpiar la fecha en datePickerFechaCompra
+            cbTarjetas.setConverter(null); //00191322 resetear el convertidor del combobox cbTarjetas
+            cbTarjetas.valueProperty().set(null); //00191322 limpiar la selección en cbTarjetas
+            comboboxVistaCompras(); //00191322 llamar al metodo comboboxVistaCompras
         }
     }
 
-    private boolean verificarCamposConDatos(String modelo, String accion){
-        if(Objects.equals(modelo, "cliente")) {
-            if(Objects.equals(accion, "guardar")) {
-                if(txtClienteNombre.getText().equals("")
-                        || txtClienteTelefono.getText().equals("")
-                        || txtAreaDireccion.getText().equals("") ){
-                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING);
-                    return false;
+    private boolean verificarCamposConDatos(String modelo, String accion){ //00191322 Declaramo el metodo verificarCamposConDatos que recibe parametros modelo de tipo String y accion tipo string
+        if(Objects.equals(modelo, "cliente")) { //00191322 verificar si el modelo es cliente
+            if(Objects.equals(accion, "guardar")) { //00191322 verifica si la accion es guardas
+                if(txtClienteNombre.getText().equals("") //00191322 verificamos si el campo nombre se encuentra vacio en el formulario de cliente
+                        || txtClienteTelefono.getText().equals("") //00191322 verificamos si el campo telefono se encuentra vacio en el formulario de cliente
+                        || txtAreaDireccion.getText().equals("") ){ //00191322 verificamos si el campo direccion se encuentra vacio en el formulario de cliente
+                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
                 }
-            } else if (Objects.equals(accion, "eliminar")) {
-                if(txtClienteId.getText().equals("")) {
-                    lanzarAlerta("Seleccione un Cliente a eliminar", Alert.AlertType.WARNING);
-                    return false;
+            } else if (Objects.equals(accion, "eliminar")) { //00191322 verifica si la accion es eliminar
+                if(txtClienteId.getText().equals("")) { //00191322 verifica si el campo de id del cliente esta vacio
+                    lanzarAlerta("Seleccione un Cliente a eliminar", Alert.AlertType.WARNING); //00191322 llama al metodo para mostror una alerta
+                    return false; //00191322 retorna falso porque el id del cliente no esta seleccionado
                 }
-            } else if (Objects.equals(accion, "buscar")) {
-                if(txtBuscarCliente.getText().equals("")) {
-                    lanzarAlerta("Ingrese un termino para buscar el Cliente", Alert.AlertType.WARNING);
-                    return false;
-                }
-            }
-        } else if(Objects.equals(modelo, "tarjeta")) {
-            if(Objects.equals(accion, "guardar")) {
-                if(txtNumTarjeta.getText().equals("")
-                        || txtFechaVencimiento.getText().equals("")
-                        || txtCvc.getText().equals("")
-                        || cbFacilitador.getSelectionModel().getSelectedItem() == null
-                        || cbTipoTarjeta.getSelectionModel().getSelectedItem() == null
-                        || cbClientes.getSelectionModel().getSelectedItem() == null
-                ){
-                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING);
-                    return false;
-                }
-            } else if (Objects.equals(accion, "eliminar")) {
-                if(txtTarjetaId.getText().equals("")) {
-                    lanzarAlerta("Seleccione una Tarjeta a eliminar", Alert.AlertType.WARNING);
-                    return false;
-                }
-            } else if (Objects.equals(accion, "buscar")) {
-                if(txtBuscarTarjeta.getText().equals("")) {
-                    lanzarAlerta("Ingrese un termino para buscar la tarjeta", Alert.AlertType.WARNING);
-                    return false;
+            } else if (Objects.equals(accion, "buscar")) { //00191322 verifica si la acción es buscar
+                if(txtBuscarCliente.getText().equals("")) { //00191322 verifica si el campo de bysqueda de cliente esta vacío
+                    lanzarAlerta("Ingrese un termino para buscar el Cliente", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
+
                 }
             }
-        } else if(Objects.equals(modelo, "compra")) {
-            if(Objects.equals(accion, "guardar")) {
-                if(txtMonto.getText().equals("")
-                        || txtAreaDescripcion.getText().equals("")
-                        || Objects.isNull(datePickerFechaCompra.getValue())
-                        || cbTarjetas.getSelectionModel().getSelectedItem() == null
+        } else if(Objects.equals(modelo, "tarjeta")) { //00191322 verifica si el modelo es tarjeta
+            if(Objects.equals(accion, "guardar")) { //00191322 verifica si la accion es guardar
+                if(txtNumTarjeta.getText().equals("") //00191322 verifica si el campo numtarjeta esta vacio en el formulario de tarjeta
+                        || txtFechaVencimiento.getText().equals("") //00191322 verifica si el campo fechavencimiento  esta vacio en el formulario de tarjeta
+                        || txtCvc.getText().equals("") //00191322 verifica si el campo cvc esta vacio en el formulario de tarjeta
+                        || cbFacilitador.getSelectionModel().getSelectedItem() == null //00191322 verifica si el campo facilitador esta vacio en el formulario de tarjeta
+                        || cbTipoTarjeta.getSelectionModel().getSelectedItem() == null //00191322 verifica si el campo tipotarjeta esta vacio en el formulario de tarjeta
+                        || cbClientes.getSelectionModel().getSelectedItem() == null //00191322 verifica si el campo cliente esta vacío en el formulario de tarjeta
                 ){
-                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING);
-                    return false;
+                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
                 }
-            } else if (Objects.equals(accion, "eliminar")) {
-                if(txtCompraId.getText().equals("")) {
-                    lanzarAlerta("Seleccione una Compra a eliminar", Alert.AlertType.WARNING);
-                    return false;
+            } else if (Objects.equals(accion, "eliminar")) { //00191322 verifica si la accion es eliminar
+                if(txtTarjetaId.getText().equals("")) { //00191322 verifica si el modelo es buscar
+                    lanzarAlerta("Seleccione una Tarjeta a eliminar", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
                 }
-            } else if (Objects.equals(accion, "buscar")) {
-                if(txtBuscarCompra.getText().equals("")) {
-                    lanzarAlerta("Ingrese un termino para buscar la compra", Alert.AlertType.WARNING);
-                    return false;
+            } else if (Objects.equals(accion, "buscar")) { //00191322 verifica si la accion es buscar
+                if(txtBuscarTarjeta.getText().equals("")) { //00191322 verifica si el campo buscartarjeta esta vacio en el formulario de tarjeta
+                    lanzarAlerta("Ingrese un termino para buscar la tarjeta", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
+                }
+            }
+        } else if(Objects.equals(modelo, "compra")) { //00191322 verifica si el modelo es compra
+            if(Objects.equals(accion, "guardar")) { //00191322 verifica si el modelo es guardar
+                if(txtMonto.getText().equals("") //00191322 verifica si el campo monto esta vacio en el formulario de compra
+                        || txtAreaDescripcion.getText().equals("") //00191322 verifica si el campo esta vacio en el formulario de compra
+                        || Objects.isNull(datePickerFechaCompra.getValue()) //00191322 verifica si el campo esta vacio en el formulario de compra
+                        || cbTarjetas.getSelectionModel().getSelectedItem() == null //00191322 verifica si el campo esta vacio en el formulario de compra
+                ){
+                    lanzarAlerta("Rellene todos los campos", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
+                }
+            } else if (Objects.equals(accion, "eliminar")) { //00191322 verifica si la accion es eliminar
+                if(txtCompraId.getText().equals("")) { //00191322 verifica si el campo monto esta vacio en el formulario de compra
+                    lanzarAlerta("Seleccione una Compra a eliminar", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
+                }
+            } else if (Objects.equals(accion, "buscar")) { //00191322 verifica si la accion es buscar
+                if(txtBuscarCompra.getText().equals("")) { //00191322
+                    lanzarAlerta("Ingrese un termino para buscar la compra", Alert.AlertType.WARNING); //00191322 alerta en caso que algun campo requerido este vacio
+                    return false; //00191322 retornar falso porque los campos no estan completos
                 }
             }
         }
-        return true;
+        return true; //00191322 retorna verdadero si todos los campos requeridos están completos
     }
 
 

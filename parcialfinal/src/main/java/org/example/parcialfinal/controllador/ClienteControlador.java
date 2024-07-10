@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class ClienteControlador {
-    public Cliente buscarCliente(Integer id) {
+public class ClienteControlador { // 00191322 Clase cliente controlador
+    public Cliente buscarCliente(Integer id) { // 00191322 Metodo para buscar cliente
         Cliente cliente = new Cliente(); // 00191322 Se crea una instancia de tipo Cliente
         try {
             String query = "SELECT id, nombre, telefono, direccion FROM cliente WHERE id = ?; "; // 00191322 Query para select del objeto
@@ -23,10 +23,10 @@ public class ClienteControlador {
             ResultSet rs = pst.executeQuery(); // 00191322 Se ejecuta el prepared statement
 
             while (rs.next()) { // 00191322 si tiene datos el resultset, esto se ejecutara por cada uno
-                cliente.setId(rs.getInt("id")); // 00191322 Se le asigna el id al objeco cliente
-                cliente.setNombre(rs.getString("nombre")); // 00191322 Se le asigna el nombre al objeco cliente
-                cliente.setTelefono(rs.getString("telefono")); // 00191322 Se le asigna el telefono al objeco cliente
-                cliente.setDireccion(rs.getString("direccion")); // 00191322 Se le asigna la direccion al objeco cliente
+                cliente.setId(rs.getInt("id")); // 00191322 Se le asigna el id al objeto cliente
+                cliente.setNombre(rs.getString("nombre")); // 00191322 Se le asigna el nombre al objeto cliente
+                cliente.setTelefono(rs.getString("telefono")); // 00191322 Se le asigna el telefono al objeto cliente
+                cliente.setDireccion(rs.getString("direccion")); // 00191322 Se le asigna la direccion al objeto cliente
             }
         } catch (SQLException e) { // 00191322 Se catchea la excepcion SQLException
             e.printStackTrace(); // 00191322 Se imprime el Stack Trace
@@ -50,7 +50,7 @@ public class ClienteControlador {
         } finally { // 00191322 Cuando se termina el bloque try-catch se ejecutara esto
             DatabaseConnection.closeConnection(); // 00191322 Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return clientes;
+        return clientes; // 00191322 se devuelven los clientes
     }
 
     public List<Cliente> buscarClientes(String termino) { // 00191322 metodo para buscar clientes
@@ -76,7 +76,7 @@ public class ClienteControlador {
         } finally { // 00191322 Cuando se termina el bloque try-catch se ejecutara esto
             DatabaseConnection.closeConnection(); // 00191322 Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return clientes;
+        return clientes; // 00191322 se devuelven los clientes
     }
 
     private void leerClientes(List<Cliente> clientes, ResultSet rs) throws SQLException { // 00191322 Metodo para leer los resultset
@@ -123,10 +123,10 @@ public class ClienteControlador {
         } finally { // 00191322 Cuando se termina el bloque try-catch se ejecutara esto
             DatabaseConnection.closeConnection(); // 00191322 Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return true;
+        return true; // 00191322 se devuelve true si todo salio bien
     }
 
-    public boolean eliminarCliente(Integer idCliente) { // 00191322 metodo para guardar/actualizar el cliente
+    public boolean eliminarCliente(Integer idCliente) { // 00191322 metodo para eliminar el cliente
         try {
             String query = "DELETE FROM cliente WHERE id = ?"; // 00191322 string para la query delete
             int result; // 00191322 resultado que determina si salio bien o mal la transaccion
