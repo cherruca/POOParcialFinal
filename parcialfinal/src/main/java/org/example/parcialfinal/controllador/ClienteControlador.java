@@ -11,6 +11,31 @@ import java.util.List;
 import java.util.Objects;
 
 public class ClienteControlador {
+    public Cliente buscarCliente(Integer id) {
+        Cliente cliente = new Cliente();
+        try {
+            String query = "SELECT id, nombre, telefono, direccion FROM cliente WHERE id = ?; ";
+
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
+
+            pst.setInt(1, id);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                cliente.setId(rs.getInt("id"));
+                cliente.setNombre(rs.getString("nombre"));
+                cliente.setTelefono(rs.getString("telefono"));
+                cliente.setDireccion(rs.getString("direccion"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+        return cliente;
+    }
+
     public List<Cliente> obtenerClientes() {
         List<Cliente> clientes = new ArrayList<>();
         try {
