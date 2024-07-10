@@ -17,59 +17,66 @@ import java.util.List;
 import java.util.Objects;
 
 public class TarjetaControlador {
-    //Decla
+    // 00084020 clase publica TarjetaControlador
     public Tarjeta obtenerTarjeta(int id) {
+        // 00084020 metodo publico para obtener tarjeta 
         Tarjeta tarjeta = new Tarjeta();
+        // 00084020 crea nueva instancia tarjeta
         try {
-            String query = "SELECT ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " +
-                    "FROM tarjeta ta " +
-                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +
-                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id " +
-                    "WHERE ta.id = ? ;";
+            // 00084020 try catch para excepciones
+            String query = "SELECT ta.id, numero, fechaVencimiento, codigo, facilitador_id, cliente_id, cl.nombre, fa.tipo, ta.tipo_tarjeta " +// 00084020 query para select del objeto
+                    "FROM tarjeta ta " + // 00084020 query para select del objeto
+                    "INNER JOIN cliente cl ON ta.cliente_id = cl.id " +// 00084020 query para select del objeto
+                    "INNER JOIN facilitador fa ON ta.facilitador_id = fa.id " +// 00084020 query para select del objeto
+                    "WHERE ta.id = ? ;";// 00084020 query para select del objeto
 
-            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query);
+            PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00084020 Se crea un prepared Stament y se le pasa la query
+            pst.setInt(1, id); // 00084020 Se setea el parametro del prepared Statement, en este caso el id
 
-            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery(); // 00084020 Se ejecuta el prepared statement
 
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-                tarjeta.setId(rs.getInt("id"));
-                tarjeta.setNumero(rs.getString("numero"));
-                tarjeta.setFechaVencimiento(dateAString(rs.getDate("fechaVencimiento")));
-                tarjeta.setCodigo(rs.getString("codigo"));
-                tarjeta.setFacilitadorId(rs.getInt("facilitador_id"));
-                tarjeta.setClienteId(rs.getInt("cliente_id"));
-                tarjeta.setNombreCliente(rs.getString("nombre"));
-                tarjeta.setNombreFacilitador(rs.getString("tipo"));
-                tarjeta.setTipoTarjeta(rs.getString("tipo_tarjeta"));
+            while (rs.next()) { // 00084020 si tiene datos el resultset, esto se ejecutara por cada uno
+                tarjeta.setId(rs.getInt("id"));// 00084020 Se le asigna el id al objeto tarjeta
+                tarjeta.setNumero(rs.getString("numero"));  // 00084020 Se le asigna el numero al objeto tarjeta
+                tarjeta.setFechaVencimiento(dateAString(rs.getDate("fechaVencimiento")));  // 00084020 Se le asigna la fecha vencimiento al objeto tarjeta
+                tarjeta.setCodigo(rs.getString("codigo")); // 00084020 Se le asigna el codigo al objeto tarjeta
+                tarjeta.setFacilitadorId(rs.getInt("facilitador_id"));  // 00084020 Se le asigna el facilitador id del objeto tarjeta
+                tarjeta.setClienteId(rs.getInt("cliente_id"));  // 00084020 Se le asigna el cliente id del objeto tarjeta
+                tarjeta.setNombreCliente(rs.getString("nombre")); // 00084020 Se le asigna el nombre al objeto tarjeta
+                tarjeta.setNombreFacilitador(rs.getString("tipo")); // 00084020 Se le asigna el tipo al objeto tarjeta
+                tarjeta.setTipoTarjeta(rs.getString("tipo_tarjeta")); // 00084020 Se le asigna el tipo de tarjeta al objeto tarjeta
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) {  // 00084020 Se hace el catch de la excepion SQLException
+            e.printStackTrace();  // 00084020 se imprime el stach trace
+        } finally { // 00084020 cuando se termina el bloque try-catch se ejecutara esto
+            DatabaseConnection.closeConnection(); // 00084020  Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
-        return tarjeta;
+        return tarjeta; //00084020 Se retorna la instancia de tarjeta
     }
 
-    public List<String> obtenerTodosNumerosTarjeta() {
-        List<String> numerosTarjeta = new ArrayList<>();
+    public List<String> obtenerTodosNumerosTarjeta() { // 00084020 metodo para obtener numers tarjeta
+        List<String> numerosTarjeta = new ArrayList<>(); // 00084020 se crea una lista para numeros tarjeta
         try {
-            String query = "SELECT numero FROM tarjeta;";
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            String query = "SELECT numero FROM tarjeta;"; // 00084020 se crea query
+            Statement stmt = DatabaseConnection.getConnection().createStatement(); // 00084020 se crea statement
 
-            ResultSet rs = stmt.executeQuery(query);
+            ResultSet rs = stmt.executeQuery(query); // 00084020 se ejecuta statement y se guarda en resultset
 
             while (rs.next()) {
+                // 00084020 iteracion sobre el resultado de la consulta
                 numerosTarjeta.add(rs.getString("numero"));
+                // 00084020 agrega numero tarjeta a lista
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            // 00084020 manejo excepcion SQL
         } finally {
             DatabaseConnection.closeConnection();
+            // 00084020 cierra conexion a la base
         }
         return numerosTarjeta;
+        // 00084020 retorna la lista numeros tarjeta
     }
 
     public String obtenerNumeroTarjetaPorId(int id) {

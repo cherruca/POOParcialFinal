@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseConnection { // 00191322 Declara la clase DatabaseConnection
-    private static volatile Connection con = null; // 00191322 Declara una variable estatica y volatil de tipo Connection llamada con
+    private static Connection con = null; // 00191322 Declara una variable estatica de tipo Connection llamada con
 
     private DatabaseConnection() {} // 00191322 Constructor privado para evitar que se instancie esta clase
 
