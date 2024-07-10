@@ -516,29 +516,29 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    protected void agregarCliente() { // 00051316
-        String accion;
-        if(verificarCamposConDatos("cliente", "guardar")) { // 00051316
-            Cliente cliente = new Cliente(); // 00051316
+    protected void agregarCliente() { // 00051316 metodo publico para agregar una compra
+        String accion; // 00051316 cariable para almacenar la accion realizada
+        if(verificarCamposConDatos("cliente", "guardar")) { // 00051316 verifica si los campos requeridos para guardar un clinete estan completos
+            Cliente cliente = new Cliente(); // 00051316 crea una nueva instancia de la clase cliente
 
-            if (Objects.equals(txtClienteId.getText(), "")) { // 00051316
-                cliente.setId(null); // 00051316
-                accion = "guardado"; // 00051316
-            } else { // 00051316
-                cliente.setId(Integer.valueOf(txtClienteId.getText())); // 00051316
-                accion = "actualizado"; // 00051316
+            if (Objects.equals(txtClienteId.getText(), "")) { // 00051316 verifica si el campo de ID de clienteestá vacío
+                cliente.setId(null); // 00051316 establece el ID de la cliente como nulo
+                accion = "guardado"; // 00051316 Define la acción como guardado
+            } else { // 00051316 de no cumplirse con los compos
+                cliente.setId(Integer.valueOf(txtClienteId.getText())); // 00051316 Convierte y establece el iv de cliente desde el campo de texto
+                accion = "actualizado"; // 00051316 Define la acción como actualizado
             }
 
-            cliente.setNombre(txtClienteNombre.getText()); // 00051316
-            cliente.setTelefono(txtClienteTelefono.getText()); // 00051316
-            cliente.setDireccion(txtAreaDireccion.getText()); // 00051316
+            cliente.setNombre(txtClienteNombre.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
+            cliente.setTelefono(txtClienteTelefono.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
+            cliente.setDireccion(txtAreaDireccion.getText()); // 00051316 establece los atributos del cliente desde los campos del formulario
 
-            if(clienteControlador.persistirCliente(cliente)) { // 00051316
-                lanzarAlerta("Exito", "Cliente " + accion, Alert.AlertType.INFORMATION); // 00051316
-                limpiarCampos("cliente"); // 00051316
-                obtenerClientes(); // 00051316
-            } else { // 00051316
-                lanzarAlerta("Cliente no guardado", "Hubo un error al guardar el registro", Alert.AlertType.ERROR); // 00051316
+            if(clienteControlador.persistirCliente(cliente)) { // 00051316 intenta persistir el cliente usando el controlador de cliente
+                lanzarAlerta("Exito", "Cliente " + accion, Alert.AlertType.INFORMATION); // 00051316 Muestra una alerta de exito
+                limpiarCampos("cliente"); // 00051316 llama al método para limpiar los campos
+                obtenerClientes(); // 00051316 llama al metodo para actualizar la vista de clientes
+            } else { // 00051316 de no cumplirse con los compos
+                lanzarAlerta("Cliente no guardado", "Hubo un error al guardar el registro", Alert.AlertType.ERROR); // 00051316 muestra una alerta de error
             }
         }
     }
