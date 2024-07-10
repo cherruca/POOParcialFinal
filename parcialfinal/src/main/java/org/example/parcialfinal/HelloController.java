@@ -11,19 +11,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import org.example.parcialfinal.controllador.*;
-import org.example.parcialfinal.modelo.Cliente;
-import org.example.parcialfinal.modelo.Compra;
-import org.example.parcialfinal.modelo.Facilitador;
-
-import org.example.parcialfinal.modelo.ReporteA;
-import org.example.parcialfinal.modelo.ReporteParametro;
-
-import org.example.parcialfinal.modelo.Tarjeta;
+import org.example.parcialfinal.modelo.*;
 
 
 import java.net.URL;
 
 import java.sql.*;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -31,10 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HelloController implements Initializable {
     @FXML
@@ -181,337 +172,355 @@ public class HelloController implements Initializable {
     @FXML
     private VBox vbMenu; // 00191322 Elemento VBox para el menu
 
-    // reportes
     @FXML
-    private Button btnReporteA;
+    private Button btnReporteA; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo A
     @FXML
-    private Button btnReporteB;
+    private Button btnReporteB; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo B
     @FXML
-    private Button btnReporteC;
+    private Button btnReporteC; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo C
     @FXML
-    private Button btnReporteD;
+    private Button btnReporteD; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo D
     @FXML
-    private ComboBox<?> cbReporteBanio;
+    private DatePicker cbReporteBanio; // 00191322 DatePicker que de tipo Reporte
     @FXML
-    private ComboBox<?> cbReporteBmes;
+    private ComboBox<?> cbReporteBmes; // 00191322 Combobox que de tipo Bmes
     @FXML
-    private ComboBox<?> cbReporteDfacilitador;
+    private ComboBox<?> cbReporteDfacilitador; // 00191322 Combobox que de tipo Facilitador
     @FXML
-    private DatePicker reporteAFechaFin;
+    private DatePicker reporteAFechaFin; // 00191322 Datepicker para elegir la fecha de inicio del reporte
     @FXML
-    private DatePicker reporteAFechaInicio;
+    private DatePicker reporteAFechaInicio; // 00191322 Datepicker para elegir la fecha fin del reporte
     @FXML
-    private ComboBox<Cliente> reporteCliente;
+    private ComboBox<Cliente> reporteCliente; // 00191322 Combobox que de tipo Cliente
     @FXML
-    private TextArea webReporte;
+    private TextArea webReporte; // 00191322 textArea para los datos del webReporte
 
     private ArrayList<Cliente> listadoClientesCombo;
 
-    ObservableList<Cliente> observableListCliente = FXCollections.observableArrayList();
-    ObservableList<Facilitador> observableListFacilitador = FXCollections.observableArrayList();
-    ObservableList<Tarjeta> observableListTarjeta = FXCollections.observableArrayList();
-    ObservableList<Compra> observableListCompra = FXCollections.observableArrayList();
+    /**
+     * 00191322 ObservableList de las clases Modelo, con estos se actualizan y muestran datos en las tablas y combobox
+     */
+    ObservableList<Cliente> observableListCliente = FXCollections.observableArrayList(); // 00191322 ObservableList de tipo Cliente, se inicializa como FXCollections.observableArrayList()
+    ObservableList<Facilitador> observableListFacilitador = FXCollections.observableArrayList(); // 00191322 ObservableList de tipo Facilitador, se inicializa como FXCollections.observableArrayList()
+    ObservableList<Tarjeta> observableListTarjeta = FXCollections.observableArrayList(); // 00191322 ObservableList de tipo Tarjeta, se inicializa como FXCollections.observableArrayList()
+    ObservableList<Compra> observableListCompra = FXCollections.observableArrayList(); // 00191322 ObservableList de tipo Compra, se inicializa como FXCollections.observableArrayList()
 
-    ObservableList<String> observableListTipoTarjeta = FXCollections.observableArrayList();
+    ObservableList<String> observableListTipoTarjeta = FXCollections.observableArrayList(); // 00191322 ObservableList de tipo String para TipoTarjeta (Visa, MasterCard, etc), se inicializa como FXCollections.observableArrayList()
 
     /**
-     * Se declaran los controladores como atributos y se
-     * hace una simulacion de Dependency Injection (Inyeccion de Dependencias)
+     * 00191322 Se declaran los controladores como atributos y se
+     * 00191322 hace una simulacion de Dependency Injection (Inyeccion de Dependencias)
      */
-    private ClienteControlador clienteControlador; // Atributo privado de tipo Controlador de Cliente
-    private CompraControlador compraControlador; // Atributo privado de tipo Controlador de Compra
-    private TarjetaControlador tarjetaControlador; // Atributo privado de tipo Controlador de Tarjeta
-    private FacilitadorControlador facilitadorControlador; // Atributo privado de tipo Controlador de Facilitador
+    private ClienteControlador clienteControlador; // 00191322 Atributo privado de tipo Controlador de Cliente
+    private CompraControlador compraControlador; // 00191322 Atributo privado de tipo Controlador de Compra
+    private TarjetaControlador tarjetaControlador; // 00191322 Atributo privado de tipo Controlador de Tarjeta
+    private FacilitadorControlador facilitadorControlador; // 00191322 Atributo privado de tipo Controlador de Facilitador
 
 
-    // Constructor sin argumentos requerido por FXM Loader
+    // 00191322 Constructor sin argumentos requerido por FXM Loader
     public HelloController() {
-        this(new ClienteControlador(), new CompraControlador(), new TarjetaControlador(), new FacilitadorControlador()); // Se llama el controlador con argumentos de los controladores para siempre incializar una instancia con los atributos seteados
+        this(new ClienteControlador(), new CompraControlador(), new TarjetaControlador(), new FacilitadorControlador()); // 00191322 Se llama el constructor con argumentos de los controladores para siempre incializar una instancia con los atributos seteados
     }
 
     /**
-     * Se inicializan las instancias de los controladores
-     * por medio de un constructor de la clase
+     * 00191322 Se inicializan las instancias de los controladores
+     * 00191322 por medio de un constructor de la clase
      * @param clienteControlador instancia de ClienteControlador a ser inyectada
      */
-    public HelloController(ClienteControlador clienteControlador, CompraControlador compraControlador, TarjetaControlador tarjetaControlador, FacilitadorControlador facilitadorControlador) {
-        this.clienteControlador = clienteControlador;
-        this.compraControlador = compraControlador;
-        this.tarjetaControlador = tarjetaControlador;
-        this.facilitadorControlador = facilitadorControlador;
+    public HelloController(ClienteControlador clienteControlador, CompraControlador compraControlador, TarjetaControlador tarjetaControlador, FacilitadorControlador facilitadorControlador) { // 00191322 Constructor con argumentos que incializa una instancia de cada controlador
+        this.clienteControlador = clienteControlador; // 00191322 se asigna un valor al atributo del controlador Cliente
+        this.compraControlador = compraControlador; // 00191322 se asigna un valor al atributo del controlador Compra
+        this.tarjetaControlador = tarjetaControlador; // 00191322 se asigna un valor al atributo del controlador Tarjeta
+        this.facilitadorControlador = facilitadorControlador; // 00191322 se asigna un valor al atributo del controlador Facilitador
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        obtenerTarjetas();
-        obtenerClientes();
-        obtenerFacilitadores();
-        obtenerCompras();
+    public void initialize(URL url, ResourceBundle resourceBundle) { // 00191322 Metodo que se ejectura al iniciar el projecto
+        obtenerTarjetas(); // 00191322 se obtienen los datos de Tarjetas de la base
+        obtenerClientes(); // 00191322 se obtienen los datos de Clientes de la base
+        obtenerFacilitadores(); // 00191322 se obtienen los datos de Facilitadores de la base
+        obtenerCompras(); // 00191322 se obtienen los datos de Compras de la base
         /**
-         * Se obtiene el header de la tabla usando un listener,
-         * luego se agrega otro listener a la propiedad de reordering (reordenamiento)
-         * y se asigan false al atributo Reordering
+         * 00191322 Se obtiene el header de la tabla usando un listener,
+         * 00191322 luego se agrega otro listener a la propiedad de reordering (reordenamiento)
+         * 00191322 y se asigan false al atributo Reordering
          *
-         * Con esto, se logra que las columnas de las tablas no se pueden ajustar su tamaño
+         * 00191322 Con esto, se logra que las columnas de las tablas no se pueden ajustar su tamaño
          */
-        tblClientes.widthProperty().addListener((observableValue, number, t1) -> {
-            TableHeaderRow header = (TableHeaderRow) tblClientes.lookup("TableHeaderRow");
-            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+
+        tblClientes.widthProperty().addListener((observableValue, number, t1) -> { // 00191322 se obtiene la widthProperty, luego se le asigna un listener por medio de una lambda
+            TableHeaderRow header = (TableHeaderRow) tblClientes.lookup("TableHeaderRow"); // 00191322 se obtiene la TableHeaderRow
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false)); // 0191322 se utiliza una lambda para asignarle un reordering false type al header
         });
 
-        tblTarjetas.widthProperty().addListener((observableValue, number, t1) -> {
-            TableHeaderRow header = (TableHeaderRow) tblTarjetas.lookup("TableHeaderRow");
-            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+        tblTarjetas.widthProperty().addListener((observableValue, number, t1) -> { // 00191322 se obtiene la widthProperty, luego se le asigna un listener por medio de una lambda
+            TableHeaderRow header = (TableHeaderRow) tblTarjetas.lookup("TableHeaderRow"); // 00191322 se obtiene la TableHeaderRow
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false)); // 0191322 se utiliza una lambda para asignarle un reordering false type al header
         });
 
-        tblCompras.widthProperty().addListener((observableValue, number, t1) -> {
-            TableHeaderRow header = (TableHeaderRow) tblCompras.lookup("TableHeaderRow");
-            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false));
+        tblCompras.widthProperty().addListener((observableValue, number, t1) -> { // 00191322 se obtiene la widthProperty, luego se le asigna un listener por medio de una lambda
+            TableHeaderRow header = (TableHeaderRow) tblCompras.lookup("TableHeaderRow"); // 00191322 se obtiene la TableHeaderRow
+            header.reorderingProperty().addListener((observableValue1, aBoolean, t11) -> header.setReordering(false)); // 0191322 se utiliza una lambda para asignarle un reordering false type al header
         });
 
         /**
-         * Se asigna un value factory a las columnas para
-         * definir que atributo van a mostrar
+         * 00191322 Se asigna un value factory a las columnas para
+         * 00191322 definir que atributo van a mostrar
          */
-        tcClienteId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tcClienteNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        tcClienteTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-        tcClienteDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        tcClienteId.setCellValueFactory(new PropertyValueFactory<>("id")); // 00191322 se asigna a la columna el atributo de id
+        tcClienteNombre.setCellValueFactory(new PropertyValueFactory<>("nombre")); // 00191322 se asigna a la columna el atributo de nombre
+        tcClienteTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono")); // 00191322 se asigna a la columna el atributo de telefono
+        tcClienteDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion")); // 00191322 se asigna a la columna el atributo de direccion
 
-        tcTarjetaId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tcTarjetaNomCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-        tcTarjetaNum.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        tcTarjetaCvc.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        tcTarjetaFechaVen.setCellValueFactory(new PropertyValueFactory<>("fechaVencimiento"));
-        tcTarjetaFacilitador.setCellValueFactory(new PropertyValueFactory<>("nombreFacilitador"));
-        tcTarjetaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoTarjeta"));
+        tcTarjetaId.setCellValueFactory(new PropertyValueFactory<>("id")); // 00191322 se asigna a la columna el atributo de id
+        tcTarjetaNomCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente")); // 00191322 se asigna a la columna el atributo de nombreCliente
+        tcTarjetaNum.setCellValueFactory(new PropertyValueFactory<>("numero")); // 00191322 se asigna a la columna el atributo de numero
+        tcTarjetaCvc.setCellValueFactory(new PropertyValueFactory<>("codigo")); // 00191322 se asigna a la columna el atributo de codigo
+        tcTarjetaFechaVen.setCellValueFactory(new PropertyValueFactory<>("fechaVencimiento")); // 00191322 se asigna a la columna el atributo de fechaVencimiento
+        tcTarjetaFacilitador.setCellValueFactory(new PropertyValueFactory<>("nombreFacilitador")); // 00191322 se asigna a la columna el atributo de nombreFacilitador
+        tcTarjetaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoTarjeta")); // 00191322 se asigna a la columna el atributo de tipoTarjeta
 
-        tcCompraId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tcCompraMonto.setCellValueFactory(new PropertyValueFactory<>("monto"));
-        tcCompraTarjeta.setCellValueFactory(new PropertyValueFactory<>("clienteTarjeta"));
-        tcCompraDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        tcCompraFechaCompra.setCellValueFactory(new PropertyValueFactory<>("fechaDeCompra"));
+        tcCompraId.setCellValueFactory(new PropertyValueFactory<>("id")); // 00191322 se asigna a la columna el atributo de id
+        tcCompraMonto.setCellValueFactory(new PropertyValueFactory<>("monto")); // 00191322 se asigna a la columna el atributo de monto
+        tcCompraTarjeta.setCellValueFactory(new PropertyValueFactory<>("clienteTarjeta")); // 00191322 se asigna a la columna el atributo de clienteTarjeta
+        tcCompraDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion")); // 00191322 se asigna a la columna el atributo de descripcion
+        tcCompraFechaCompra.setCellValueFactory(new PropertyValueFactory<>("fechaDeCompra")); // 00191322 se asigna a la columna el atributo de fechaDeCompra
 
         /**
-         * Se asigna datos a la tabla por medio de un ObservableList
+         * 00191322 Se asigna datos a la tabla por medio de un ObservableList
          */
-        tblClientes.setItems(observableListCliente);
-        tblTarjetas.setItems(observableListTarjeta);
-        tblCompras.setItems(observableListCompra);
+        tblClientes.setItems(observableListCliente); // 00191322 se le asigna a la table Clientes el observableListCliente
+        tblTarjetas.setItems(observableListTarjeta); // 00191322 se le asigna a la table Tarjetas el observableListTarjeta
+        tblCompras.setItems(observableListCompra); // 00191322 se le asigna a la table Compras el observableListCompra
 
-        tblClientes.setRowFactory(object -> {
-            TableRow<Cliente> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
-                    Cliente cliente = row.getItem();
-                    if(row.getIndex() == tblClientes.getSelectionModel().getSelectedIndex()
-                            && Objects.equals(txtClienteId.getText(), String.valueOf(cliente.getId()))
+        tblClientes.setRowFactory(object -> { // 00191322 se usa lambda para la tabla Clientes
+            TableRow<Cliente> row = new TableRow<>(); // 00191322 se crea un objeto de tipo TableRow<Cliente>
+            row.setOnMouseClicked(event -> { // 00191322 se registra el evento setOnMouseClicked y se asigna su comportamiento con una lambda
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) { // 00191322 se evalua que la row no este empty y el click sea con el boton primary del mouse (izquierdo)
+                    Cliente cliente = row.getItem(); // 00191322 Si se paso la evaluacion, se crea una instancia Cliente obteniendo el item de la row seleccionada
+                    if(row.getIndex() == tblClientes.getSelectionModel().getSelectedIndex() // 00191322 se evalua si la row que se seleccinoa ya esta seleccionada
+                            && Objects.equals(txtClienteId.getText(), String.valueOf(cliente.getId())) // 00191322 tambien se evalua si el valor del textField id es el mismo de la row seleccionada
                     ){
-                        tblClientes.getSelectionModel().clearSelection();
-                        limpiarCampos("cliente");
+                        tblClientes.getSelectionModel().clearSelection(); // 00191322 si la evaluacion anterior es true, se deselecciona el item
+                        limpiarCampos("cliente"); // 00191322 y tambien se limpian los campos
                     } else {
-                        txtClienteId.setText(cliente.getId().toString());
-                        txtClienteNombre.setText(cliente.getNombre());
-                        txtClienteTelefono.setText(cliente.getTelefono());
-                        txtAreaDireccion.setText(cliente.getDireccion());
+                        txtClienteId.setText(cliente.getId().toString()); // 00191322 se asigna al textField el valor de Id
+                        txtClienteNombre.setText(cliente.getNombre()); // 00191322 se asigna al textField el valor de Nombre
+                        txtClienteTelefono.setText(cliente.getTelefono()); // 00191322 se asigna al textField el valor de Telefono
+                        txtAreaDireccion.setText(cliente.getDireccion()); // 00191322 se asigna al textArea el valor de Direccion
                     }
                 }
             });
-            return row;
+            return row; // 00191322 se devuelve la row a la lambda con las propiedades asignadas
         });
 
-        tblTarjetas.setRowFactory(object -> {
-            TableRow<Tarjeta> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
-                    Tarjeta tarjeta = row.getItem();
-                    if(row.getIndex() == tblTarjetas.getSelectionModel().getSelectedIndex()
-                            && Objects.equals(txtTarjetaId.getText(), String.valueOf(tarjeta.getId()))
+        tblTarjetas.setRowFactory(object -> { // 00191322 se usa lambda para la tabla Tarjetas
+            TableRow<Tarjeta> row = new TableRow<>(); // 00191322 se crea un objeto de tipo TableRow<Tarjeta>
+            row.setOnMouseClicked(event -> { // 00191322 se registra el evento setOnMouseClicked y se asigna su comportamiento con una lambda
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) { // 00191322 se evalua que la row no este empty y el click sea con el boton primary del mouse (izquierdo)
+                    Tarjeta tarjeta = row.getItem(); // 00191322 Si se paso la evaluacion, se crea una instancia Tarjeta obteniendo el item de la row seleccionada
+                    if(row.getIndex() == tblTarjetas.getSelectionModel().getSelectedIndex() // 00191322 se evalua si la row que se seleccinoa ya esta seleccionada
+                            && Objects.equals(txtTarjetaId.getText(), String.valueOf(tarjeta.getId())) // 00191322 tambien se evalua si el valor del textField id es el mismo de la row seleccionada
                     ){
-                        tblTarjetas.getSelectionModel().clearSelection();
-                        limpiarCampos("tarjeta");
+                        tblTarjetas.getSelectionModel().clearSelection(); // 00191322 si la evaluacion anterior es true, se deselecciona el item
+                        limpiarCampos("tarjeta"); // 00191322 y tambien se limpian los campos
                     } else {
-                        txtTarjetaId.setText(tarjeta.getId().toString());
-                        txtNumTarjeta.setText(tarjeta.getNumero());
-                        txtFechaVencimiento.setText(tarjeta.getFechaVencimiento());
-                        txtCvc.setText(tarjeta.getCodigo());
-                        cbTipoTarjeta.setValue(tarjeta.getTipoTarjeta());
-                        cbClientes.setValue(clienteControlador.buscarCliente(tarjeta.getClienteId()));
-                        cbFacilitador.setValue(facilitadorControlador.obtenerFacilitador(tarjeta.getFacilitadorId()));
+                        txtTarjetaId.setText(tarjeta.getId().toString()); // 00191322 se asigna al textField el valor de Id
+                        txtNumTarjeta.setText(tarjeta.getNumero()); // 00191322 se asigna al textField el valor de Numero
+                        txtFechaVencimiento.setText(tarjeta.getFechaVencimiento()); // 00191322 se asigna al textField el valor de Fecha de Vencimiento
+                        txtCvc.setText(tarjeta.getCodigo()); // 00191322 se asigna al textField el valor de Cvc (codigo)
+                        cbTipoTarjeta.setValue(tarjeta.getTipoTarjeta()); // 00191322 se asigna al Combobox el valor de Tipo de Tarjeta
+                        cbClientes.setValue(clienteControlador.buscarCliente(tarjeta.getClienteId())); // 00191322 se asigna al Combobox el valor de Clientes
+                        cbFacilitador.setValue(facilitadorControlador.obtenerFacilitador(tarjeta.getFacilitadorId())); // 00191322 se asigna al Combobox el valor de Facilitador
                     }
                 }
             });
-            return row;
+            return row; // 00191322 se devuelve la row a la lambda con las propiedades asignadas
         });
 
-        tblCompras.setRowFactory(object -> {
-            TableRow<Compra> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
-                    Compra compra = row.getItem();
-                    if(row.getIndex() == tblCompras.getSelectionModel().getSelectedIndex()
-                            && Objects.equals(txtCompraId.getText(), String.valueOf(compra.getId()))
+        tblCompras.setRowFactory(object -> { // 00191322 se usa lambda para la tabla Compras
+            TableRow<Compra> row = new TableRow<>(); // 00191322 se crea un objeto de tipo TableRow<Compra>
+            row.setOnMouseClicked(event -> { // 00191322 se registra el evento setOnMouseClicked y se asigna su comportamiento con una lambda
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) { // 00191322 se evalua que la row no este empty y el click sea con el boton primary del mouse (izquierdo)
+                    Compra compra = row.getItem(); // 00191322 Si se paso la evaluacion, se crea una instancia Compra obteniendo el item de la row seleccionada
+                    if(row.getIndex() == tblCompras.getSelectionModel().getSelectedIndex() // 00191322 se evalua si la row que se seleccinoa ya esta seleccionada
+                            && Objects.equals(txtCompraId.getText(), String.valueOf(compra.getId())) // 00191322 tambien se evalua si el valor del textField id es el mismo de la row seleccionada
                     ){
-                        tblCompras.getSelectionModel().clearSelection();
-                        limpiarCampos("compra");
+                        tblCompras.getSelectionModel().clearSelection(); // 00191322 si la evaluacion anterior es true, se deselecciona el item
+                        limpiarCampos("compra"); // 00191322 y tambien se limpian los campos
                     } else {
-                        txtCompraId.setText(compra.getId().toString());
-                        txtMonto.setText(compra.getMonto().toString());
-                        datePickerFechaCompra.setValue(stringALocalDate(compra.getFechaDeCompra()));
-                        txtAreaDescripcion.setText(compra.getDescripcion());
-                        cbTarjetas.setValue(tarjetaControlador.obtenerTarjeta(compra.getIdTarjeta()));
+                        txtCompraId.setText(compra.getId().toString()); // 00191322 se asigna al textField el valor de Id
+                        txtMonto.setText(compra.getMonto().toString()); // 00191322 se asigna al textField el valor de Monto
+                        datePickerFechaCompra.setValue(stringALocalDate(compra.getFechaDeCompra())); // 00191322 se asigna al DatePicker el valor de Fecha de Compra
+                        txtAreaDescripcion.setText(compra.getDescripcion()); // 00191322 se asigna al textArea el valor de Descripcion
+                        cbTarjetas.setValue(tarjetaControlador.obtenerTarjeta(compra.getIdTarjeta())); // 00191322 se asigna al Combobox el valor de Tarjetas
                     }
                 }
             });
-            return row;
+            return row; // 00191322 se devuelve la row a la lambda con las propiedades asignadas
         });
 
-        cbFacilitador.setItems(observableListFacilitador);
-        cbClientes.setItems(observableListCliente);
-        cbTarjetas.setItems(observableListTarjeta);
+        cbFacilitador.setItems(observableListFacilitador); // 00191322 se asigna al Combobox todos los Facilitadores
+        cbClientes.setItems(observableListCliente); // 00191322 se asigna al Combobox todas los Clientes
+        cbTarjetas.setItems(observableListTarjeta); // 00191322 se asigna al Combobox todas las Tarjetas
 
-        List<String> tipoTarjeta = new ArrayList<>();
-        tipoTarjeta.add("Debito");
-        tipoTarjeta.add("Credito");
+        List<String> tipoTarjeta = new ArrayList<>(); // 00191322 se crea una Lista de tipo String para los Tipo de Tarjeta
+        tipoTarjeta.add("Debito"); // 00191322 se agrega la opcion Debito a la lista
+        tipoTarjeta.add("Credito"); // 00191322 se agrega la opcion Credito a la lista
 
-        observableListTipoTarjeta.addAll(tipoTarjeta);
+        observableListTipoTarjeta.addAll(tipoTarjeta); // 00191322 se asigna el valor de la lista de Tipo Tarjeta al observableListTipoTarjeta
 
-        cbTipoTarjeta.setItems(observableListTipoTarjeta);
-    }
-
-    @FXML
-    public void vistaClientes() {
-        limpiarCampos("cliente");
-        obtenerClientes();
+        cbTipoTarjeta.setItems(observableListTipoTarjeta); // 00191322 se asigna al Combobox todas los Tipo de Tarjeta, en este caso Credito y Debito
 
         cargarComboClientes(); // 00402523 rellena el combo de clientes para generar los reportes
+    }
+
+    @FXML
+    public void vistaClientes() { // 00191322 metodo que se ejecuta cada que se cambie a la pestana clientes
+        limpiarCampos("cliente"); // 00191322 se limpian los campos de clientes
+        obtenerClientes(); // 00191322 se obtienen toods los clientes de la base
+
+
 
     }
 
     @FXML
-    public void vistaCompras(){
-        limpiarCampos("compra");
-        comboboxVistaCompras();
+    public void vistaCompras(){  // 00191322 metodo que se ejecuta cada que se cambie a la pestana compras
+        limpiarCampos("compra"); // 00191322 se limpian los campos de compras
+        comboboxVistaCompras(); // 00191322 metodo que borra los elementos del combobox y asigna setConverter
     }
 
-    public void comboboxVistaCompras() {
-        obtenerCompras();
-        cbTarjetas.setConverter(new StringConverter<Tarjeta>() {
+    public void comboboxVistaCompras() { // 00191322 metodo para cargar los combobox apropiadamente
+        obtenerCompras(); // 00191322 se obtienen todas las compras de la base
+        cbTarjetas.setConverter(new StringConverter<Tarjeta>() { // 00191322 se crea una clase anonima de tipo StringConverter
             @Override
-            public String toString(Tarjeta object) {
-                return object.getNumero();
+            public String toString(Tarjeta object) { // 00191322 se hace override al metodo toString, y se le manda un objeto de tipo Tarjeta
+                return object.getNumero(); // 00191322 se devuelve el atributo del objeto que se mostrara en el combobox
             }
 
             @Override
-            public Tarjeta fromString(String string) {
-                return cbTarjetas.getItems().stream().filter(tarjeta ->
-                        tarjeta.getNumero().equals(string)).findFirst().orElse(null);
+            public Tarjeta fromString(String string) { // 00191322 se hace override al metodo fromString
+                return cbTarjetas.getItems().stream().filter(tarjeta -> // 00191322 se obtienen los items del combobox y usando la API stream se usa una lambda
+                        tarjeta.getNumero().equals(string)).findFirst().orElse(null); // 00191322 que luego evalua si el numero es igual a algun elemento en el bombox o si no se asigna null
             }
         });
     }
 
     @FXML
-    public void vistaTarjetas(){
-        limpiarCampos("tarjeta");
-        comboboxVistaTarjetas();
+    public void vistaTarjetas(){ // 00191322 metodo que se ejecuta cada que se cambie a la pestana tarjetas
+        limpiarCampos("tarjeta"); // 00191322 se limpian los campos de tarjetas
+        comboboxVistaTarjetas(); // 00191322 metodo que borra los elementos del combobox y asigna setConverter
     }
 
-    public void comboboxVistaTarjetas() {
-        obtenerTarjetas();
-        obtenerClientes();
-        obtenerFacilitadores();
+    public void comboboxVistaTarjetas() { // 00191322 metodo para cargar los combobox apropiadamente
+        obtenerTarjetas(); // 00191322 se obtienen todas las tarjetas de la base
+        obtenerClientes(); // 00191322 se obtienen todas las clientes de la base
+        obtenerFacilitadores(); // 00191322 se obtienen todas las facilitadores de la base
 
-        cbFacilitador.setConverter(new StringConverter<Facilitador>() {
+        cbFacilitador.setConverter(new StringConverter<Facilitador>() { // 00191322 se crea una clase anonima de tipo StringConverter
 
             @Override
-            public String toString(Facilitador object) {
-                return object.getTipo();
+            public String toString(Facilitador object) { // 00191322 se hace override al metodo toString, y se le manda un objeto de tipo Facilitador
+                return object.getTipo(); // 00191322 se devuelve el atributo del objeto que se mostrara en el combobox
             }
 
             @Override
-            public Facilitador fromString(String string) {
-                return cbFacilitador.getItems().stream().filter(facilitador ->
-                        facilitador.getTipo().equals(string)).findFirst().orElse(null);
+            public Facilitador fromString(String string) { // 00191322 se hace override al metodo fromString
+                return cbFacilitador.getItems().stream().filter(facilitador -> // 00191322 se obtienen los items del combobox y usando la API stream se usa una lambda
+                        facilitador.getTipo().equals(string)).findFirst().orElse(null); // 00191322 que luego evalua si el numero es igual a algun elemento en el bombox o si no se asigna null
             }
         });
 
-        cbClientes.setConverter(new StringConverter<Cliente>() {
+        cbClientes.setConverter(new StringConverter<Cliente>() { // 00191322 se crea una clase anonima de tipo StringConverter
 
             @Override
-            public String toString(Cliente object) {
-                return object.getNombre();
+            public String toString(Cliente object) { // 00191322 se hace override al metodo toString, y se le manda un objeto de tipo Cliente
+                return object.getNombre(); // 00191322 se devuelve el atributo del objeto que se mostrara en el combobox
             }
 
             @Override
-            public Cliente fromString(String string) {
-                return cbClientes.getItems().stream().filter(cliente ->
-                        cliente.getNombre().equals(string)).findFirst().orElse(null);
+            public Cliente fromString(String string) { // 00191322 se hace override al metodo fromString
+                return cbClientes.getItems().stream().filter(cliente -> // 00191322 se obtienen los items del combobox y usando la API stream se usa una lambda
+                        cliente.getNombre().equals(string)).findFirst().orElse(null); // 00191322 que luego evalua si el numero es igual a algun elemento en el bombox o si no se asigna null
             }
         });
     }
 
     @FXML
-    public List<Cliente> obtenerClientes() {
-        // Se obtiene los registros de los clientes de la base de datos
+    public List<Cliente> obtenerClientes() { // 00191322 Metodo para obtener todos los Clientes de la base
+        // 00191322 Se obtiene los registros de los clientes de la base de datos
         List<Cliente> clientes = clienteControlador.obtenerClientes();
-        // Se limpia el ObservableList
+        // 00191322 Se limpia el ObservableList
         observableListCliente.clear();
-        // Se añade la lista al ObservableList
+        // 00191322 Se añade la lista al ObservableList
         observableListCliente.addAll(clientes);
+        // 00191322 se retorna la lista de Clientes
         return clientes;
     }
 
     @FXML
-    public List<Facilitador> obtenerFacilitadores() {
+    public List<Facilitador> obtenerFacilitadores() { // 00191322 Metodo para obtener todos los Facilitadores de la base
+        // 00191322 Se obtiene los registros de los clientes de la base de datos
         List<Facilitador> facilitadores = facilitadorControlador.obtenerFacilitadores();
+        // 00191322 Se limpia el ObservableList
         observableListFacilitador.clear();
+        // 00191322 Se añade la lista al ObservableList
         observableListFacilitador.addAll(facilitadores);
+        // 00191322 se retorna la lista de Facilitadores
         return facilitadores;
     }
 
     @FXML
-    public List<Compra> obtenerCompras(){
+    public List<Compra> obtenerCompras(){ // 00191322 Metodo para obtener todas los Compras de la base
+        // 00191322 Se obtiene los registros de las compras de la base de datos
         List<Compra> compras = compraControlador.obtenerCompras();
+        // 00191322 Se limpia el ObservableList
         observableListCompra.clear();
+        // 00191322 Se añade la lista al ObservableList
         observableListCompra.addAll(compras);
+        // 00191322 se retorna la lista de Compras
         return compras;
     }
 
     @FXML
-    public List<Tarjeta> obtenerTarjetas() {
+    public List<Tarjeta> obtenerTarjetas() { // 00191322 Metodo para obtener todas los Tarjetas de la base
+        // 00191322 Se obtiene los registros de las tarjetas de la base de datos
         List<Tarjeta> tarjetas = tarjetaControlador.obtenerTarjetas();
+        // 00191322 Se limpia el ObservableList
         observableListTarjeta.clear();
+        // 00191322 Se añade la lista al ObservableList
         observableListTarjeta.addAll(tarjetas);
+        // 00191322 se retorna la lista de Tarjetas
         return tarjetas;
     }
 
     @FXML
-    protected void buscarCliente() {
-        String termino = txtBuscarCliente.getText();
-        if(verificarCamposConDatos("cliente", "buscar")) {
-            List<Cliente> clientes = clienteControlador.buscarClientes(termino);
-            observableListCliente.clear();
-            observableListCliente.addAll(clientes);
+    protected void buscarCliente() { // 00191322 metodo para buscar Clientes
+        String termino = txtBuscarCliente.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarCliente
+        if(verificarCamposConDatos("cliente", "buscar")) { // 00191322 se evalua que el TextField no este vacio
+            List<Cliente> clientes = clienteControlador.buscarClientes(termino); // 00191322 se obtienen los clientes que se encontraron en la busqueda
+            observableListCliente.clear(); // 00191322 se limpian los registros de clientes del observableListCliente
+            observableListCliente.addAll(clientes); // 00191322 se agregan los nuevos registros encontrados
         }
     }
 
     @FXML
-    protected void buscarTarjeta() {
-        String termino = txtBuscarTarjeta.getText();
-        if(verificarCamposConDatos("tarjeta", "buscar")) {
-            List<Tarjeta> tarjetas = tarjetaControlador.buscarTarjetas(termino);
-            observableListTarjeta.clear();
-            observableListTarjeta.addAll(tarjetas);
+    protected void buscarTarjeta() { // 00191322 metodo para buscar Tarjetas
+        String termino = txtBuscarTarjeta.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarTarjeta
+        if(verificarCamposConDatos("tarjeta", "buscar")) { // 00191322 se evalua que el TextField no este vacio
+            List<Tarjeta> tarjetas = tarjetaControlador.buscarTarjetas(termino); // 00191322 se obtienen las tarjetas que se encontraron en la busqueda
+            observableListTarjeta.clear(); // 00191322 se limpian los registros de clientes del observableListTarjeta
+            observableListTarjeta.addAll(tarjetas); // 00191322 se agregan los nuevos registros encontrados
         }
     }
 
     @FXML
-    protected void buscarCompra() {
-        String termino = txtBuscarCompra.getText();
-        if(verificarCamposConDatos("compra", "buscar")) {
-            List<Compra> compras = compraControlador.buscarCompras(termino);
-            observableListCompra.clear();
-            observableListCompra.addAll(compras);
+    protected void buscarCompra() { // 00191322 metodo para buscar Compras
+        String termino = txtBuscarCompra.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarCompra
+        if(verificarCamposConDatos("compra", "buscar")) { // 00191322 se evalua que el TextField no este vacio
+            List<Compra> compras = compraControlador.buscarCompras(termino); // 00191322 se obtienen las compras que se encontraron en la busqueda
+            observableListCompra.clear(); // 00191322 se limpian los registros de compras del observableListCompra
+            observableListCompra.addAll(compras); // 00191322 se agregan los nuevos registros encontrados
         }
     }
 
@@ -647,42 +656,42 @@ public class HelloController implements Initializable {
     }
 
     /**
-     * Metodo que nos permitira lanzar alertas al usuario
+     * 00191322 Metodo que nos permitira lanzar alertas al usuario
      *
      * @param mensaje mensaje a mostrar en nuestra alerta
      * @param tipo tipo de alerta en base al enum estatico AlertType de la clase Alert
      *             cuyos valores pueden ser: NONE, INFORMATION, WARNING, CONFIRMATION, y ERROR
      */
     private void lanzarAlerta(String mensaje, Alert.AlertType tipo) {
-        // Definimos el tipo de alerta
+        // 00191322 Definimos el tipo de alerta
         Alert alert = new Alert(tipo);
-        // Titulo de nuestra ventana
+        // 00191322 Titulo de nuestra ventana
         alert.setTitle("Mensaje del sistema");
-        // Asignamos el valor del header, en este caso null
+        // 00191322 Asignamos el valor del header, en este caso null
         alert.setHeaderText(null);
-        // El mensaje de contendra nuestra ventana
+        // 00191322 El mensaje de contendra nuestra ventana
         alert.setContentText(mensaje);
-        // Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
+        // 00191322 Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
         alert.showAndWait();
     }
 
     /**
-     * Se hace un overloading de lanzarAlerta() teniendo
-     * un metodo con 3 parametros y otro con 2 parametros
+     * 00191322 Se hace un overloading de lanzarAlerta() teniendo
+     * 00191322 un metodo con 3 parametros y otro con 2 parametros
      * @param titulo
      * @param mensaje
      * @param tipo
      */
     private void lanzarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-        // Definimos el tipo de alerta
+        // 00191322 Definimos el tipo de alerta
         Alert alert = new Alert(tipo);
-        // Titulo de nuestra ventana
+        // 00191322 Titulo de nuestra ventana
         alert.setTitle(titulo);
-        // Asignamos el valor del header, en este caso null
+        // 00191322 Asignamos el valor del header, en este caso null
         alert.setHeaderText(null);
-        // El mensaje de contendra nuestra ventana
+        // 00191322 El mensaje de contendra nuestra ventana
         alert.setContentText(mensaje);
-        // Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
+        // 00191322 Metodo que bloquea las demas ventanas y espera hasta que el usario interactue con el cuadro de dialogo
         alert.showAndWait();
     }
 
@@ -794,35 +803,111 @@ public class HelloController implements Initializable {
     }
 
 
-    @FXML
-    public void obtenerReporteA() {
-        System.out.println(reporteCliente.getValue().getNombre());
-        System.out.println(reporteAFechaInicio.getValue());
-        System.out.println(reporteAFechaFin.getValue());
+    @FXML // 00402523 elemento de FXML
+    public void obtenerReporteA() { // 00402523 metodo para generar el reporte
+        System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
+        System.out.println(reporteAFechaInicio.getValue()); // 00402523 impresion de los valores recibidos en consola
+        System.out.println(reporteAFechaFin.getValue());    // 00402523 impresion de los valores recibidos en consola
 
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); // 00402523 formato de fecha para enviar al query
+
+        try { // 00402523 try catch para generar el reporte
+            java.util.Date dateInicio = formato.parse(String.valueOf(reporteAFechaInicio.getValue())); // 00402523 conversión del dato recibido al formato de fecha
+            java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime()); // 00402523 creacion de la fecha
+            java.util.Date dateFin = formato.parse(String.valueOf(reporteAFechaFin.getValue())); // 00402523 conversión del dato recibido al formato de fecha
+            java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime()); // 00402523 creacion de la fecha
+
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin); // 00402523 instancia de los parametros del reporte
+            ReporteA reporteA = new ReporteA(); // 00402523 instancia de la clase del reporte
+
+            reporteA.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
+
+        } catch (ParseException e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
+        }
+    }
+
+    @FXML
+    public void obtenerReporteB() {
+        System.out.println(reporteCliente.getValue().getNombre());
+//        System.out.println(cbReporteBanio.getValue().getMonth());
+        String fechaIncompleta = String.valueOf(cbReporteBanio.getValue());
+        fechaIncompleta = fechaIncompleta.substring(0,8);
+        System.out.println("fecha incompleta " + fechaIncompleta);
+        int primerDia;
+        int ultimoDia;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM");
+        SimpleDateFormat formatoQuery = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
-            java.util.Date dateInicio = formato.parse(String.valueOf(reporteAFechaInicio.getValue()));
+            java.util.Date dateRecibida = formato.parse(String.valueOf(cbReporteBanio.getValue()));
+            java.sql.Date fechaRecibida = new java.sql.Date(dateRecibida.getTime());
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaRecibida);
+
+
+            primerDia = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
+            ultimoDia = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            System.out.println(primerDia);
+            String fechaCadenaInicio = fechaRecibida + "-" + primerDia;
+            java.util.Date dateInicio = formatoQuery.parse(fechaCadenaInicio);
             java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime());
-            java.util.Date dateFin = formato.parse(String.valueOf(reporteAFechaFin.getValue()));
+            System.out.println("inicio " + fechaInicio);
+
+            System.out.println(ultimoDia);
+            String fechaCadenaFin = fechaIncompleta + ultimoDia;
+            System.out.println(fechaCadenaFin);
+            java.util.Date dateFin = formatoQuery.parse(fechaCadenaFin);
             java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime());
+            System.out.println("fin " + fechaFin);
+
 
             ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin);
-            ReporteA reporteA = new ReporteA();
+            ReporteB reporteB = new ReporteB();
 
-            reporteA.generarConsulta(reporteParametro);
+            reporteB.generarConsulta(reporteParametro);
 
         } catch (ParseException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         }
     }
 
+<<<<<<< HEAD
     private void cargarComboClientes() { //00191322 metodo privado para cargar el combobox de clientes
         try { //00191322 comienza el try
             String query = "SELECT * FROM cliente"; //00191322 onsulta SQL para seleccionar todos los clientes
             Statement stmt = DatabaseConnection.getConnection().createStatement(); //00191322 crea una declaración para ejecutar la consulta
             ResultSet rs = stmt.executeQuery(query); //00191322 ejecuta la consulta y obtiene el resultado
+=======
+    @FXML // 00402523 elemento de FXML
+    public void obtenerReporteC() { // 00402523 metodo para generar el reporte
+        System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
+
+
+
+
+        try { // 00402523 try catch para generar el reporte
+
+
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId()); // 00402523 instancia de los parametros del reporte
+            ReporteC reporteC = new ReporteC(); // 00402523 instancia de la clase del reporte
+
+            reporteC.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
+
+        } catch (Exception e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
+        }
+    }
+
+    private void cargarComboClientes() {
+        try {
+            String query = "SELECT * FROM cliente";
+            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+>>>>>>> 2cc0e89e97e5f8bebcacc0e46bbd9cef546a35b9
 
             listadoClientesCombo = new ArrayList<Cliente>(); //00191322 inicializa la lista de clientes para el combobox
 
