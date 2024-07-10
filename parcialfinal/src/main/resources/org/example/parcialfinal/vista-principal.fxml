@@ -190,27 +190,17 @@
                                                          <children>
                                                             <HBox prefHeight="131.0" prefWidth="924.0">
                                                                <children>
-                                                                  <Label text="Año: ">
+                                                                  <Label text="Año/Mes: ">
                                                                      <HBox.margin>
                                                                         <Insets bottom="15.0" left="75.0" right="15.0" top="25.0" />
                                                                      </HBox.margin>
                                                                   </Label>
-                                                                  <ComboBox fx:id="cbReporteBanio" prefWidth="150.0">
+                                                                  <DatePicker fx:id="cbReporteBanio">
                                                                      <HBox.margin>
                                                                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                                      </HBox.margin>
-                                                                  </ComboBox>
-                                                                  <Label layoutX="25.0" layoutY="25.0" text="Mes: ">
-                                                                     <HBox.margin>
-                                                                        <Insets bottom="15.0" left="15.0" right="15.0" top="25.0" />
-                                                                     </HBox.margin>
-                                                                  </Label>
-                                                                  <ComboBox fx:id="cbReporteBmes" layoutX="148.0" layoutY="30.0" prefWidth="150.0">
-                                                                     <HBox.margin>
-                                                                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                                                                     </HBox.margin>
-                                                                  </ComboBox>
-                                                                  <Button fx:id="btnReporteB" mnemonicParsing="false" text="Generar reporte">
+                                                                  </DatePicker>
+                                                                  <Button fx:id="btnReporteB" mnemonicParsing="false" onAction="#obtenerReporteB" text="Generar reporte">
                                                                      <HBox.margin>
                                                                         <Insets left="50.0" top="60.0" />
                                                                      </HBox.margin>
