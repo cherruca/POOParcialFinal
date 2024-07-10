@@ -22,7 +22,7 @@
         //00084020 atributo privado para almacenar el nombre del cliente
     
         public Tarjeta() {
-            //00084020 constructor vacio para inicializar
+            //00084020 constructor vacio para inicializar.
         }
     
         public Tarjeta(Integer id, String numero, String fechaVencimiento, String codigo, String tipoTarjeta, Integer facilitadorId, String nombreFacilitador, Integer clienteId, String nombreCliente) {
