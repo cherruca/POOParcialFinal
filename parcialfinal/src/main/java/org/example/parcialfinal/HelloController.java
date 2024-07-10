@@ -682,40 +682,40 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    private void limpiarCampos(String modelo) {
-        if(Objects.equals(modelo, "cliente")) {
-            txtClienteId.clear();
-            txtClienteNombre.clear();
-            txtClienteTelefono.clear();
-            txtAreaDireccion.clear();
-        } else if (Objects.equals(modelo, "tarjeta")) {
-            txtTarjetaId.clear();
-            txtNumTarjeta.clear();
-            txtFechaVencimiento.clear();
-            txtCvc.clear();
-            cbClientes.setConverter(null);
-            cbTipoTarjeta.setConverter(null);
-            cbFacilitador.setConverter(null);
-            cbClientes.valueProperty().set(null);
-            cbTipoTarjeta.valueProperty().set(null);
-            cbFacilitador.valueProperty().set(null);
-            comboboxVistaTarjetas();
-        } else if (Objects.equals(modelo, "tarjeta-campos")) {
-            txtTarjetaId.clear();
-            txtNumTarjeta.clear();
-            txtFechaVencimiento.clear();
-            txtCvc.clear();
-            cbClientes.valueProperty().set(null);
-            cbTipoTarjeta.valueProperty().set(null);
-            cbFacilitador.valueProperty().set(null);
-        } else if (Objects.equals(modelo, "compra")) {
-            txtCompraId.clear();
-            txtMonto.clear();
-            txtAreaDescripcion.clear();
-            datePickerFechaCompra.setValue(null);
-            cbTarjetas.setConverter(null);
-            cbTarjetas.valueProperty().set(null);
-            comboboxVistaCompras();
+    private void limpiarCampos(String modelo) { //00191322 Declara el metodo limpiarCampos que recibe un parámetro modelo de tipo String
+        if(Objects.equals(modelo, "cliente")) { //00191322 Verifica si el modelo es "cliente"
+            txtClienteId.clear(); //00191322 Limpia el campo txtClienteId
+            txtClienteNombre.clear(); //00191322 Limpia el campo txtClienteNombre
+            txtClienteTelefono.clear(); //00191322 Limpia el campo txtClienteTelefono
+            txtAreaDireccion.clear(); //00191322 Limpia el campo txtAreaDireccion
+        } else if (Objects.equals(modelo, "tarjeta")) { //00191322 Verifica si el modelo es "tarjeta"
+            txtTarjetaId.clear(); //00191322 Limpia el campo txtTarjetaId
+            txtNumTarjeta.clear(); //00191322 Limpia el campo txtNumTarjeta
+            txtFechaVencimiento.clear(); //00191322 Limpia el campo txtFechaVencimiento
+            txtCvc.clear(); //00191322 Limpia el campo txtCvc
+            cbClientes.setConverter(null); //00191322 Resetea el convertidor del combobox cbClientes
+            cbTipoTarjeta.setConverter(null); //00191322 Resetea el convertidor del combobox cbTipoTarjeta
+            cbFacilitador.setConverter(null); //00191322 Resetea el convertidor del combobox cbFacilitador
+            cbClientes.valueProperty().set(null); //00191322 Limpia la selección en cbClientes
+            cbTipoTarjeta.valueProperty().set(null); //00191322 Limpia la selección en cbTipoTarjeta
+            cbFacilitador.valueProperty().set(null); //00191322 Limpia la selección en cbFacilitador
+            comboboxVistaTarjetas(); //00191322 Llama al metodo comboboxVistaTarjetas
+        } else if (Objects.equals(modelo, "tarjeta-campos")) { //00191322 Verifica si el modelo es "tarjeta-campos"
+            txtTarjetaId.clear(); //00191322 Limpia el campo txtTarjetaId
+            txtNumTarjeta.clear(); //00191322 Limpia el campo txtNumTarjeta
+            txtFechaVencimiento.clear(); //00191322 Limpia el campo txtFechaVencimiento
+            txtCvc.clear(); //00191322 Limpia el campo txtCvc
+            cbClientes.valueProperty().set(null); //00191322 Limpia la selección en cbClientes
+            cbTipoTarjeta.valueProperty().set(null); //00191322 Limpia la selección en cbTipoTarjeta
+            cbFacilitador.valueProperty().set(null); //00191322 Limpia la selección en cbFacilitador
+        } else if (Objects.equals(modelo, "compra")) { //00191322  Verifica si el modelo es "compra"
+            txtCompraId.clear(); //00191322 Limpia el campo txtCompraId
+            txtMonto.clear(); //00191322 Limpia el campo txtMonto
+            txtAreaDescripcion.clear(); //00191322 Limpia el campo txtAreaDescripcion
+            datePickerFechaCompra.setValue(null); //00191322 Limpia la fecha en datePickerFechaCompra
+            cbTarjetas.setConverter(null); //00191322 Resetea el convertidor del combobox cbTarjetas
+            cbTarjetas.valueProperty().set(null); //00191322 Limpia la selección en cbTarjetas
+            comboboxVistaCompras(); //00191322 Llama al metodo comboboxVistaCompras
         }
     }
 
