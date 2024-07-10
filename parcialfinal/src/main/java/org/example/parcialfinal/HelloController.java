@@ -15,10 +15,16 @@ import org.example.parcialfinal.controllador.ClienteControlador;
 import org.example.parcialfinal.controllador.DatabaseConnection;
 import org.example.parcialfinal.modelo.Cliente;
 import org.example.parcialfinal.modelo.Facilitador;
+import javafx.scene.web.WebView;
+import org.example.parcialfinal.modelo.ReporteA;
+import org.example.parcialfinal.modelo.ReporteParametro;
 
 import javax.swing.event.ChangeEvent;
 import java.net.URL;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -162,6 +168,32 @@ public class HelloController implements Initializable {
     @FXML
     private VBox vbMenu;
 
+    // reportes
+    @FXML
+    private Button btnReporteA;
+    @FXML
+    private Button btnReporteB;
+    @FXML
+    private Button btnReporteC;
+    @FXML
+    private Button btnReporteD;
+    @FXML
+    private ComboBox<?> cbReporteBanio;
+    @FXML
+    private ComboBox<?> cbReporteBmes;
+    @FXML
+    private ComboBox<?> cbReporteDfacilitador;
+    @FXML
+    private DatePicker reporteAFechaFin;
+    @FXML
+    private DatePicker reporteAFechaInicio;
+    @FXML
+    private ComboBox<Cliente> reporteCliente;
+    @FXML
+    private TextArea webReporte;
+
+    private ArrayList<Cliente> listadoClientesCombo;
+
     ObservableList<Cliente> observableListCliente = FXCollections.observableArrayList();
 
     /**
@@ -245,6 +277,9 @@ public class HelloController implements Initializable {
         });
 
         obtenerClientes();
+
+        cargarComboClientes(); // 00402523 rellena el combo de clientes para generar los reportes
+
     }
 
 
@@ -393,5 +428,53 @@ public class HelloController implements Initializable {
             }
         }
         return true;
+    }
+
+    @FXML
+    public void obtenerReporteA() {
+        System.out.println(reporteCliente.getValue().getNombre());
+        System.out.println(reporteAFechaInicio.getValue());
+        System.out.println(reporteAFechaFin.getValue());
+
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            java.util.Date dateInicio = formato.parse(String.valueOf(reporteAFechaInicio.getValue()));
+            java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime());
+            java.util.Date dateFin = formato.parse(String.valueOf(reporteAFechaFin.getValue()));
+            java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime());
+
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin);
+            ReporteA reporteA = new ReporteA();
+
+            reporteA.generarConsulta(reporteParametro);
+
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void cargarComboClientes() {
+        try {
+            String query = "SELECT * FROM cliente";
+            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            listadoClientesCombo = new ArrayList<Cliente>();
+
+            while (rs.next()) {
+                Cliente cliente = new Cliente(rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("telefono"));
+
+                reporteCliente.getItems().add(cliente);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
     }
 }
