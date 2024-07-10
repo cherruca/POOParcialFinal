@@ -1,7 +1,7 @@
     package org.example.parcialfinal.modelo;
     
     public class Tarjeta {
-        // 00084020 atributo clase publica Tarjeta
+        // 00084020  clase publica Tarjeta
         private Integer id;
         //00084020 atributo privado para almacenar id tarjeta
         private String numero;

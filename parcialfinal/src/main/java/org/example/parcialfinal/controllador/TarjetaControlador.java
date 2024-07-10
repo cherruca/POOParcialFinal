@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class TarjetaControlador {
+    //Decla
     public Tarjeta obtenerTarjeta(int id) {
         Tarjeta tarjeta = new Tarjeta();
         try {
