@@ -1,0 +1,5 @@
+Facilitador de Tarjeta: Visa
+Compras: 
+	Nombre	Cantidad de Compras	Total Gastado
+
+	Cristiano Ronaldo	6	60.00
