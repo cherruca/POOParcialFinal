@@ -15,7 +15,6 @@ import org.example.parcialfinal.modelo.Cliente;
 import org.example.parcialfinal.modelo.Compra;
 import org.example.parcialfinal.modelo.Facilitador;
 
-import javafx.scene.web.WebView;
 import org.example.parcialfinal.modelo.ReporteA;
 import org.example.parcialfinal.modelo.ReporteParametro;
 
@@ -835,9 +834,9 @@ public class HelloController implements Initializable {
         } finally {
             DatabaseConnection.closeConnection();
         }
+    }
 
     private LocalDate stringALocalDate(String fechaString) {
         return LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
     }
 }
