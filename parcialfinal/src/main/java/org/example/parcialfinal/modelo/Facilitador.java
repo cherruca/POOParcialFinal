@@ -28,4 +28,9 @@ public class Facilitador { // 00051316 Declara la clase Facilitador
     public void setTipo(String tipo) { // 00051316 Metodo setter para obtener el valor del atributo tipo
         this.tipo = tipo; // 00051316 Asigna el valor pasado como parametro al atributo tipo
     }
+
+    @Override
+    public String toString() { // 00191322 Metodo toString para Facilitador
+        return id + " " + tipo; // 00191322 Se setea que se quiere devolver
+    }
 }

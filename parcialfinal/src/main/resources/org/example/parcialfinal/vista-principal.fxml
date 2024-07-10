@@ -249,7 +249,7 @@
                                                                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                                                                      </HBox.margin>
                                                                   </ComboBox>
-                                                                  <Button fx:id="btnReporteD" mnemonicParsing="false" text="Generar reporte">
+                                                                  <Button fx:id="btnReporteD" mnemonicParsing="false" onAction="#obtenerReporteD" text="Generar reporte">
                                                                      <HBox.margin>
                                                                         <Insets left="50.0" top="60.0" />
                                                                      </HBox.margin>

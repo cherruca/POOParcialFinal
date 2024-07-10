@@ -2,63 +2,68 @@ package org.example.parcialfinal.modelo;
 
 import java.util.Date;
 
-public class ReporteParametro {
-    private int id;
-    private Date inicio;
-    private Date fin;
-    private String tipo;
+public class ReporteParametro { // 00191322 Clase Reporte Parametro
+    private int id; // 00191322 Atributo id
+    private Date inicio; // 00191322 Atributo inicio
+    private Date fin; // 00191322 Atributo fin
+    private String tipo; // 00191322 Atributo tipo
 
-    public ReporteParametro(int id, Date inicio, Date fin, String tipo) {
-        this.id = id;
-        this.inicio = inicio;
-        this.fin = fin;
-        this.tipo = tipo;
+    public ReporteParametro(int id, String tipo) { // 00191322 Constructor con paremetros
+        this.id = id; // 00191322 setear id con controlador
+        this.tipo = tipo; // 00191322 setear tipo con controlador
     }
 
-    public ReporteParametro(int id, Date inicio, Date fin) {
-        this.id = id;
-        this.inicio = inicio;
-        this.fin = fin;
+    public ReporteParametro(int id, Date inicio, Date fin, String tipo) { // 00191322 Constructor con paremetros
+        this.id = id; // 00191322 setear id con controlador
+        this.inicio = inicio; // 00191322 setear inicio con controlador
+        this.fin = fin; // 00191322 setear fin con controlador
+        this.tipo = tipo; // 00191322 setear tipo con controlador
     }
 
-    public ReporteParametro(int id, Date inicio) {
-        this.id = id;
-        this.inicio = inicio;
+    public ReporteParametro(int id, Date inicio, Date fin) { // 00191322 Constructor con paremetros
+        this.id = id; // 00191322 setear id con controlador
+        this.inicio = inicio; // 00191322 setear inicio con controlador
+        this.fin = fin; // 00191322 setear fin con controlador
     }
 
-    public ReporteParametro(int id) {
-        this.id = id;
+    public ReporteParametro(int id, Date inicio) { // 00191322 Constructor con paremetros
+        this.id = id; // 00191322 setear id con controlador
+        this.inicio = inicio; // 00191322 setear inicio con controlador
     }
 
-    public int getId() {
-        return id;
+    public ReporteParametro(int id) { // 00191322 Constructor con 1 parametro(Id)
+        this.id = id; // 00191322 setear id con controlador
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getId() { // 00191322 Metodo obtener id
+        return id; // 00191322 retornar id
     }
 
-    public java.sql.Date getInicio() {
-        return (java.sql.Date) inicio;
+    public void setId(int id) { // 00191322 Metodo setear Id
+        this.id = id; // 00191322 se setea Id
     }
 
-    public void setInicio(Date inicio) {
-        this.inicio = inicio;
+    public java.sql.Date getInicio() { // 00191322 Metodo obtener inicio
+        return (java.sql.Date) inicio; // 00191322 retornar inicio
     }
 
-    public java.sql.Date getFin() {
-        return (java.sql.Date) fin;
+    public void setInicio(Date inicio) { // 00191322 Metodo setear inicio
+        this.inicio = inicio; // 00191322 se setea inicio
     }
 
-    public void setFin(Date fin) {
-        this.fin = fin;
+    public java.sql.Date getFin() { // 00191322 Metodo obtener fin
+        return (java.sql.Date) fin; // 00191322 retornar fin
     }
 
-    public String getTipo() {
-        return tipo;
+    public void setFin(Date fin) { // 00191322 Metodo setear fin
+        this.fin = fin; // 00191322 se setea fin
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public String getTipo() { // 00191322 Metodo obtener tipo
+        return tipo; // 00191322 retornar tipo
+    }
+
+    public void setTipo(String tipo) { // 00191322 Metodo setear tipo
+        this.tipo = tipo; // 00191322 se setea tipo
     }
 }

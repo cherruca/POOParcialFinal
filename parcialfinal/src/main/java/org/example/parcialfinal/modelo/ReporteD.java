@@ -99,7 +99,7 @@ public class ReporteD implements ReporteInterfaz {
 
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()); // 00402523 se genera fecha y hora para guardar reporte
 
-            File archivoRuta = new File(".\\reportes" + "\\" + "reporte-C-" + timeStamp + ".txt"); // 00402523 direccion y nombre para guardar archivo
+            File archivoRuta = new File(".\\reportes" + "\\" + "reporte-D-" + timeStamp + ".txt"); // 00402523 direccion y nombre para guardar archivo
             System.out.println(archivoRuta); // 00402523 se imprime la ruta del archivo en consola
             FileWriter escritor = new FileWriter(archivoRuta); // 00402523 se crea el archivo
 

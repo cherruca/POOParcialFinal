@@ -28,171 +28,171 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class HelloController implements Initializable {
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnBuscarCliente; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es buscar un cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnBuscarCompra; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es buscar una compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnBuscarTarjeta; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es buscar una tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnEliminarCliente; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es eliminar un cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnEliminarCompra; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es eliminar una compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnEliminarTarjeta; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es eliminar una tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnGuardarCliente; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es guardar un cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnGuardarCompra; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es guardar una compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnGuardarTarjeta; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es guardar una tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<Cliente> cbClientes; // 00191322 Combobox que de tipo Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<Facilitador> cbFacilitador; // 00191322 Combobox que de tipo Facilitador
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<Tarjeta> cbTarjetas; // 00191322 Combobox que de tipo Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<String> cbTipoTarjeta; // 00191322 Combobox que de tipo String (Tipo Tarjeta, ya sea Debito o Credito)
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private DatePicker datePickerFechaCompra; // 00191322 Datepicker para elegir la fecha de la compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableView<Cliente> tblClientes; // 00191322 TableView que mostrara los clientes traidos desde la base
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableView<Compra> tblCompras; // 00191322 TableView que mostrara las compras traidas desde la base
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableView<Tarjeta> tblTarjetas; // 00191322 TableView que mostrara las tarjetas traidas desde la base
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Cliente, String> tcClienteDireccion; // 00191322 Columna de la Tabla de Cliente que representara la direccion del Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Cliente, Integer> tcClienteId; // 00191322 Columna de la Tabla de Cliente que representara el Id del Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Cliente, String> tcClienteNombre; // 00191322 Columna de la Tabla de Cliente que representara el Nombre del Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Cliente, String> tcClienteTelefono; // 00191322 Columna de la Tabla de Cliente que representara el Telefono del Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Compra, String> tcCompraDescripcion; // 00191322 Columna de la Tabla de Compra que representara la Descripcion de la Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Compra, String> tcCompraFechaCompra; // 00191322 Columna de la Tabla de Compra que representara la Fecha de la Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Compra, Integer> tcCompraId; // 00191322 Columna de la Tabla de Compra que representara el Id de la Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Compra, Double> tcCompraMonto; // 00191322 Columna de la Tabla de Compra que representara el Monto de la Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Compra, Integer> tcCompraTarjeta; // 00191322 Columna de la Tabla de Compra que representara la Tarjeta usada en la Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, String> tcTarjetaCvc; // 00191322 Columna de la Tabla de Tarjeta que representara el codigo CVC de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, String> tcTarjetaFechaVen; // 00191322 Columna de la Tabla de Tarjeta que representara la Fecha de Vencimiento de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, Integer> tcTarjetaId; // 00191322 Columna de la Tabla de Tarjeta que representara el Id de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, Integer> tcTarjetaNomCliente; // 00191322 Columna de la Tabla de Tarjeta que representara el Nombre del Cliente asociado a la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, String> tcTarjetaNum; // 00191322 Columna de la Tabla de Tarjeta que representara el Numero de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, String> tcTarjetaTipo; // 00191322 Columna de la Tabla de Tarjeta que representara el Tipo de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TableColumn<Tarjeta, String> tcTarjetaFacilitador; // 00191322 Columna de la Tabla de Tarjeta que representara el Facilitador (Visa, Mastercard, etc) de la Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextArea txtAreaDescripcion; // 00191322 Text Area para Compra donde se introduce la descripcion
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextArea txtAreaDireccion; // 00191322 Text Area para Cliente donde se introduce la direccion
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtClienteId; // 00191322 Text Field para Cliente que contiene el Id (esta oculto en la vista)
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtTarjetaId; // 00191322 Text Field para Tarjeta que contiene el Id (esta oculto en la vista)
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtCompraId; // 00191322 Text Field para Compra que contiene el Id (esta oculto en la vista)
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtBuscarCliente; // 00191322 Text Field para Buscar un Cliente
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtBuscarCompra; // 00191322 Text Field para Buscar una Compra
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtBuscarTarjeta; // 00191322 Text Field para Buscar una Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtClienteNombre; // 00191322 Text Field para Cliente donde se introduce el Nombre
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtClienteTelefono; // 00191322 Text Field para Cliente donde se introduce el Telefono
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtCvc; // 00191322 Text Field para Tarjeta donde se introduce el CVC
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtFechaVencimiento; // 00191322 Text Field para Tarjeta donde se introduce la fecha de vencimiento
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtMonto; // 00191322 Text Field para Compra donde se introduce el Monto
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextField txtNumTarjeta; // 00191322 Text Field para Tarjeta donde se introduce el numero de Tarjeta
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private VBox vbMenu; // 00191322 Elemento VBox para el menu
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnReporteA; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo A
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnReporteB; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo B
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnReporteC; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo C
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private Button btnReporteD; // 00191322 Variable de tipo Button que representa un boton en FXML y su accion es generar un reporte de tipo D
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private DatePicker cbReporteBanio; // 00191322 DatePicker que de tipo Reporte
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<?> cbReporteBmes; // 00191322 Combobox que de tipo Bmes
-    @FXML
-    private ComboBox<?> cbReporteDfacilitador; // 00191322 Combobox que de tipo Facilitador
-    @FXML
+    @FXML // 00402523 elemento de FXML
+    private ComboBox<Facilitador> cbReporteDfacilitador; // 00191322 Combobox que de tipo Facilitador
+    @FXML // 00402523 elemento de FXML
     private DatePicker reporteAFechaFin; // 00191322 Datepicker para elegir la fecha de inicio del reporte
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private DatePicker reporteAFechaInicio; // 00191322 Datepicker para elegir la fecha fin del reporte
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private ComboBox<Cliente> reporteCliente; // 00191322 Combobox que de tipo Cliente
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private TextArea webReporte; // 00191322 textArea para los datos del webReporte
 
     private ArrayList<Cliente> listadoClientesCombo;
@@ -373,9 +373,10 @@ public class HelloController implements Initializable {
         cbTipoTarjeta.setItems(observableListTipoTarjeta); // 00191322 se asigna al Combobox todas los Tipo de Tarjeta, en este caso Credito y Debito
 
         cargarComboClientes(); // 00402523 rellena el combo de clientes para generar los reportes
+        cargarComboFacilitadores(); // 00402523 rellena el combo de clientes para generar los reportes
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public void vistaClientes() { // 00191322 metodo que se ejecuta cada que se cambie a la pestana clientes
         limpiarCampos("cliente"); // 00191322 se limpian los campos de clientes
         obtenerClientes(); // 00191322 se obtienen toods los clientes de la base
@@ -384,7 +385,7 @@ public class HelloController implements Initializable {
 
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public void vistaCompras(){  // 00191322 metodo que se ejecuta cada que se cambie a la pestana compras
         limpiarCampos("compra"); // 00191322 se limpian los campos de compras
         comboboxVistaCompras(); // 00191322 metodo que borra los elementos del combobox y asigna setConverter
@@ -406,7 +407,7 @@ public class HelloController implements Initializable {
         });
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public void vistaTarjetas(){ // 00191322 metodo que se ejecuta cada que se cambie a la pestana tarjetas
         limpiarCampos("tarjeta"); // 00191322 se limpian los campos de tarjetas
         comboboxVistaTarjetas(); // 00191322 metodo que borra los elementos del combobox y asigna setConverter
@@ -446,7 +447,7 @@ public class HelloController implements Initializable {
         });
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public List<Cliente> obtenerClientes() { // 00191322 Metodo para obtener todos los Clientes de la base
         // 00191322 Se obtiene los registros de los clientes de la base de datos
         List<Cliente> clientes = clienteControlador.obtenerClientes();
@@ -458,7 +459,7 @@ public class HelloController implements Initializable {
         return clientes;
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public List<Facilitador> obtenerFacilitadores() { // 00191322 Metodo para obtener todos los Facilitadores de la base
         // 00191322 Se obtiene los registros de los clientes de la base de datos
         List<Facilitador> facilitadores = facilitadorControlador.obtenerFacilitadores();
@@ -470,7 +471,7 @@ public class HelloController implements Initializable {
         return facilitadores;
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public List<Compra> obtenerCompras(){ // 00191322 Metodo para obtener todas los Compras de la base
         // 00191322 Se obtiene los registros de las compras de la base de datos
         List<Compra> compras = compraControlador.obtenerCompras();
@@ -482,7 +483,7 @@ public class HelloController implements Initializable {
         return compras;
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public List<Tarjeta> obtenerTarjetas() { // 00191322 Metodo para obtener todas los Tarjetas de la base
         // 00191322 Se obtiene los registros de las tarjetas de la base de datos
         List<Tarjeta> tarjetas = tarjetaControlador.obtenerTarjetas();
@@ -494,7 +495,7 @@ public class HelloController implements Initializable {
         return tarjetas;
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void buscarCliente() { // 00191322 metodo para buscar Clientes
         String termino = txtBuscarCliente.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarCliente
         if(verificarCamposConDatos("cliente", "buscar")) { // 00191322 se evalua que el TextField no este vacio
@@ -504,7 +505,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void buscarTarjeta() { // 00191322 metodo para buscar Tarjetas
         String termino = txtBuscarTarjeta.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarTarjeta
         if(verificarCamposConDatos("tarjeta", "buscar")) { // 00191322 se evalua que el TextField no este vacio
@@ -514,7 +515,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void buscarCompra() { // 00191322 metodo para buscar Compras
         String termino = txtBuscarCompra.getText(); // 00191322 se obtiene el termino de busca del TextField txtBuscarCompra
         if(verificarCamposConDatos("compra", "buscar")) { // 00191322 se evalua que el TextField no este vacio
@@ -524,7 +525,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void agregarCliente() { // 00051316 metodo publico para agregar una compra
         String accion; // 00051316 cariable para almacenar la accion realizada
         if(verificarCamposConDatos("cliente", "guardar")) { // 00051316 verifica si los campos requeridos para guardar un clinete estan completos
@@ -552,7 +553,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void eliminarCliente() { // 00051316 metodo publico para eliminar un cliente
         if(verificarCamposConDatos("cliente", "eliminar")){ // 00051316 verifica si los campos requeridos para eliminar un cliente están completos
             // 00051316 intenta eliminar el cliente usando el controlador de tarjeta
@@ -566,7 +567,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public void agregarTarjeta() { // 00051316 metodo publico para agregar una compra
         String accion; // 00051316 variable para almacenar la acción realizada
 
@@ -597,7 +598,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void eliminarTarjeta() { // 00051316 metodo para eliminar una tarjeta
         if(verificarCamposConDatos("tarjeta", "eliminar")){ // 00051316 verifica si los campos requeridos para eliminar una tarjeta están completos
             // 00051316 intenta eliminar la compra usando el controlador de tarjeta
@@ -611,7 +612,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     public void agregarCompra() { // 00051316  metodo para agregar una compra
         String accion; // 00051316  variable para almacenar la accion realizada (guardada o actualizada)
         if(verificarCamposConDatos("compra", "guardar")){ // 00051316  verifica si los campos requeridos para guardar una compra estan completados
@@ -640,7 +641,7 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     protected void eliminarCompra() { //00191322 metodo para eliminar una compra
 
         if(verificarCamposConDatos("compra", "eliminar")){ //00191322 verifica si los campos requeridos para eliminar una compra están completos
@@ -695,7 +696,7 @@ public class HelloController implements Initializable {
         alert.showAndWait();
     }
 
-    @FXML
+    @FXML // 00402523 elemento de FXML
     private void limpiarCampos(String modelo) { //00191322 declaramo el metodo limpiarCampos que recibe un parámetro modelo de tipo String
         if(Objects.equals(modelo, "cliente")) { //00191322 verificar si el modelo es cliente
             txtClienteId.clear(); //00191322 limpiamos el campo txtClienteId
@@ -803,7 +804,7 @@ public class HelloController implements Initializable {
     }
 
 
-    @FXML // 00402523 elemento de FXML
+    @FXML // 00402523 elemento de FXML // 00402523 elemento de FXML
     public void obtenerReporteA() { // 00402523 metodo para generar el reporte
         System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
         System.out.println(reporteAFechaInicio.getValue()); // 00402523 impresion de los valores recibidos en consola
@@ -827,51 +828,48 @@ public class HelloController implements Initializable {
         }
     }
 
-    @FXML
-    public void obtenerReporteB() {
-        System.out.println(reporteCliente.getValue().getNombre());
-//        System.out.println(cbReporteBanio.getValue().getMonth());
-        String fechaIncompleta = String.valueOf(cbReporteBanio.getValue());
-        fechaIncompleta = fechaIncompleta.substring(0,8);
-        System.out.println("fecha incompleta " + fechaIncompleta);
-        int primerDia;
-        int ultimoDia;
-        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM");
-        SimpleDateFormat formatoQuery = new SimpleDateFormat("yyyy-MM-dd");
+    @FXML // 00402523 elemento de FXML // 00402523 elemento de FXML // 00402523 elemento de FXML
+    public void obtenerReporteB() { // 00402523 metodo para generar el reporte
+        System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de valores recibidos en consola
 
-        try {
-            java.util.Date dateRecibida = formato.parse(String.valueOf(cbReporteBanio.getValue()));
-            java.sql.Date fechaRecibida = new java.sql.Date(dateRecibida.getTime());
+        String fechaIncompleta = String.valueOf(cbReporteBanio.getValue()); // 00402523 se guarda la fecha como String
+        fechaIncompleta = fechaIncompleta.substring(0,8); // 00402523 se genera una fecha con año y mes YYYY-MM
+        System.out.println("fecha incompleta " + fechaIncompleta); // 00402523 se imprime la fecha en consola
+        int primerDia, ultimoDia; // 00402523 variables para almacenar el primer y ultimo día del mes recibido
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM");  // 00402523 formato de fecha para enviar al query
+        SimpleDateFormat formatoQuery = new SimpleDateFormat("yyyy-MM-dd"); // 00402523 formato de fecha para enviar al query
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(fechaRecibida);
+        try { // 00402523 try catch para generar la fecha y el proceso del reporte
+            java.util.Date dateRecibida = formato.parse(String.valueOf(cbReporteBanio.getValue())); // 00402523 se convierte la fecha recibida
+            java.sql.Date fechaRecibida = new java.sql.Date(dateRecibida.getTime()); // 00402523 se almacena la fecha recibida
 
+            Calendar calendar = Calendar.getInstance(); // 00402523 se crea una instancia de Calendar
+            calendar.setTime(fechaRecibida); // 00402523 se setea Calendar con la fecha recibida
 
-            primerDia = calendar.getActualMinimum(Calendar.DAY_OF_MONTH);
-            ultimoDia = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            primerDia = calendar.getActualMinimum(Calendar.DAY_OF_MONTH); // 00402523 se calcula el primer dia del mes
+            ultimoDia = calendar.getActualMaximum(Calendar.DAY_OF_MONTH); // 00402523 se calcula el ultimo dia del mes
 
-            System.out.println(primerDia);
-            String fechaCadenaInicio = fechaRecibida + "-" + primerDia;
-            java.util.Date dateInicio = formatoQuery.parse(fechaCadenaInicio);
-            java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime());
-            System.out.println("inicio " + fechaInicio);
+            System.out.println(primerDia); // 00402523 se imprime en consola para verificar
+            String fechaCadenaInicio = fechaRecibida + "-" + primerDia; // 00402523 se genera una nueva fecha de inicio
+            java.util.Date dateInicio = formatoQuery.parse(fechaCadenaInicio); // 00402523 se guarda con formato de query
+            java.sql.Date fechaInicio = new java.sql.Date(dateInicio.getTime()); // 00402523 se guarda como SQL DATE
+            System.out.println("inicio " + fechaInicio); // 00402523 se imprime en consola para verificar
 
-            System.out.println(ultimoDia);
-            String fechaCadenaFin = fechaIncompleta + ultimoDia;
-            System.out.println(fechaCadenaFin);
-            java.util.Date dateFin = formatoQuery.parse(fechaCadenaFin);
-            java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime());
-            System.out.println("fin " + fechaFin);
+            System.out.println(ultimoDia); // 00402523 se imprime en consola para verificar
+            String fechaCadenaFin = fechaIncompleta + ultimoDia; // 00402523 se genera una nueva fecha de fin
+            System.out.println(fechaCadenaFin); // 00402523 se imprime en consola para verificar
+            java.util.Date dateFin = formatoQuery.parse(fechaCadenaFin); // 00402523 se guarda con formato de query
+            java.sql.Date fechaFin = new java.sql.Date(dateFin.getTime()); // 00402523 se guarda como SQL DATE
+            System.out.println("fin " + fechaFin); // 00402523 se imprime en consola para verificar
 
 
-            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin);
-            ReporteB reporteB = new ReporteB();
+            ReporteParametro reporteParametro = new ReporteParametro(reporteCliente.getValue().getId(), fechaInicio, fechaFin); // 00402523 instancia de los parametros del reporte
+            ReporteB reporteB = new ReporteB(); // 00402523 instancia de la clase del reporte
 
-            reporteB.generarConsulta(reporteParametro);
+            reporteB.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
 
-        } catch (ParseException e) {
-            System.out.println(e);
-            throw new RuntimeException(e);
+        } catch (ParseException e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
         }
     }
 
@@ -895,6 +893,23 @@ public class HelloController implements Initializable {
         }
     }
 
+    @FXML // 00402523 elemento de FXML
+    public void obtenerReporteD() { // 00402523 metodo para generar el reporte
+        System.out.println(cbReporteDfacilitador.getValue().getId());
+        System.out.println(cbReporteDfacilitador.getValue().getTipo());
+        try { // 00402523 try catch para generar el reporte
+
+
+            ReporteParametro reporteParametro = new ReporteParametro(cbReporteDfacilitador.getValue().getId(), cbReporteDfacilitador.getValue().getTipo()); // 00402523 instancia de los parametros del reporte
+            ReporteD reporteD = new ReporteD(); // 00402523 instancia de la clase del reporte
+
+            reporteD.generarConsulta(reporteParametro); // 00402523 se envian los parametros al metodo de la clase reporte
+
+        } catch (Exception e) { // 00402523 catch por si ocurriere un error
+            throw new RuntimeException(e); // 00402523 se lanza el error
+        }
+    }
+
     private void cargarComboClientes() {
         try {
             String query = "SELECT * FROM cliente";
@@ -910,6 +925,28 @@ public class HelloController implements Initializable {
                         rs.getString("telefono"));
 
                 reporteCliente.getItems().add(cliente);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            DatabaseConnection.closeConnection();
+        }
+    }
+
+    private void cargarComboFacilitadores() {
+        try {
+            String query = "SELECT * FROM facilitador";
+            Statement stmt = DatabaseConnection.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+//            listadoClientesCombo = new ArrayList<Cliente>();
+
+            while (rs.next()) {
+                Facilitador facilitador = new Facilitador(rs.getInt("id"),
+                        rs.getString("tipo"));
+
+                cbReporteDfacilitador.getItems().add(facilitador);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
