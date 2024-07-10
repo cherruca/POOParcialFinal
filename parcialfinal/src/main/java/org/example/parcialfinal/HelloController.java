@@ -195,7 +195,7 @@ public class HelloController implements Initializable {
     @FXML // 00402523 elemento de FXML
     private TextArea webReporte; // 00191322 textArea para los datos del webReporte
 
-    private ArrayList<Cliente> listadoClientesCombo;
+    private ArrayList<Cliente> listadoClientesCombo;  // 00191322 ArrayList de tipo Cliente para guardar Objetos de este tipo
 
     /**
      * 00191322 ObservableList de las clases Modelo, con estos se actualizan y muestran datos en las tablas y combobox
