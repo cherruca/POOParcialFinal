@@ -142,5 +142,5 @@
         public String toString() {
             return numero;
         }
-        // //00084020 Sobreescribe el metodo ToString para retornar numero tarjeta
+        // //00084020 Sobreescribe el metodo ToString para retornar el numero tarjeta
     }
