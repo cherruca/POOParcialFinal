@@ -875,6 +875,13 @@ public class HelloController implements Initializable {
         }
     }
 
+<<<<<<< HEAD
+    private void cargarComboClientes() { //00191322 metodo privado para cargar el combobox de clientes
+        try { //00191322 comienza el try
+            String query = "SELECT * FROM cliente"; //00191322 onsulta SQL para seleccionar todos los clientes
+            Statement stmt = DatabaseConnection.getConnection().createStatement(); //00191322 crea una declaración para ejecutar la consulta
+            ResultSet rs = stmt.executeQuery(query); //00191322 ejecuta la consulta y obtiene el resultado
+=======
     @FXML // 00402523 elemento de FXML
     public void obtenerReporteC() { // 00402523 metodo para generar el reporte
         System.out.println(reporteCliente.getValue().getNombre()); // 00402523 impresion de los valores recibidos en consola
@@ -900,26 +907,27 @@ public class HelloController implements Initializable {
             String query = "SELECT * FROM cliente";
             Statement stmt = DatabaseConnection.getConnection().createStatement();
             ResultSet rs = stmt.executeQuery(query);
+>>>>>>> 2cc0e89e97e5f8bebcacc0e46bbd9cef546a35b9
 
-            listadoClientesCombo = new ArrayList<Cliente>();
+            listadoClientesCombo = new ArrayList<Cliente>(); //00191322 inicializa la lista de clientes para el combobox
 
-            while (rs.next()) {
-                Cliente cliente = new Cliente(rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("direccion"),
-                        rs.getString("telefono"));
+            while (rs.next()) { //00191322 itera sobre los resultados de la consulta
+                Cliente cliente = new Cliente(rs.getInt("id"), //crea una nueva instancia de Cliente con los datos obtenidos de la consulta
+                        rs.getString("nombre"), //00191322 dato nombre
+                        rs.getString("direccion"), //00191322 dato direccion
+                        rs.getString("telefono")); //00191322 dato telefono
 
-                reporteCliente.getItems().add(cliente);
+                reporteCliente.getItems().add(cliente); //00191322 agrega el cliente al combobox
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) { //00191322 maneja las excepciones SQL
+            System.out.println(e.getMessage()); //00191322 imprime el mensaje de error en la consola
+            throw new RuntimeException(e); //00191322 lanza una excepcion en tiempo de ejecucion
+        } finally { //00191322 finalmente
+            DatabaseConnection.closeConnection(); //00191322 cierra la conexión a la base de datos
         }
     }
 
-    private LocalDate stringALocalDate(String fechaString) {
-        return LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    private LocalDate stringALocalDate(String fechaString) { //00191322 metodo privado para convertir una cadena de texto a LocalDate
+        return LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd")); //00191322 parsea la cadena de texto a LocalDate usando el patrón "yyyy-MM-dd"
     }
 }
