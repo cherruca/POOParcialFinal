@@ -5,7 +5,6 @@ module org.example.parcialfinal {
     requires java.desktop;
     requires javafx.graphics;
 
-
     opens org.example.parcialfinal to javafx.fxml;
     opens org.example.parcialfinal.modelo to javafx.base;
     opens org.example.parcialfinal.controllador to javafx.base;
