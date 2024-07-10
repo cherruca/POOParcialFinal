@@ -24,7 +24,7 @@
                <children>
                   <TabPane prefHeight="656.0" prefWidth="929.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
-                      <Tab text="Clientes">
+                      <Tab onSelectionChanged="#vistaClientes" text="Clientes">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
                                  <children>
@@ -46,28 +46,30 @@
                                     <Label layoutX="20.0" layoutY="22.0" text="Nombre:" />
                                     <Label layoutX="20.0" layoutY="82.0" text="Telefono:" />
                                     <Label layoutX="20.0" layoutY="140.0" text="Direccion:" />
-                                    <TextField fx:id="txtClienteId" layoutX="112.0" layoutY="9.0" prefHeight="26.0" prefWidth="26.0" style="visibility: false;" />
+                                    <TextField fx:id="txtClienteId" editable="false" layoutX="112.0" layoutY="9.0" prefHeight="26.0" prefWidth="26.0" style="visibility: false;" />
                                  </children>
                               </AnchorPane>
                         </content>
                       </Tab>
-                      <Tab text="Tarjetas">
+                      <Tab onSelectionChanged="#vistaTarjetas" text="Tarjetas">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
                                  <children>
                                     <TableView fx:id="tblTarjetas" layoutX="12.0" layoutY="245.0" prefHeight="367.0" prefWidth="900.0">
                                        <columns>
-                                          <TableColumn fx:id="tcTarjetaId" prefWidth="64.00000190734863" resizable="false" text="Id" />
-                                          <TableColumn fx:id="tcTarjetaNum" prefWidth="303.19994354248047" resizable="false" text="Numero de tarjeta" />
-                                          <TableColumn fx:id="tcTarjetaFechaVen" minWidth="8.79998779296875" prefWidth="134.40005493164062" resizable="false" text="Fecha de Vencimiento" />
-                                          <TableColumn fx:id="tcTarjetaCvc" minWidth="0.0" prefWidth="82.39996337890625" resizable="false" text="CVC" />
-                                          <TableColumn fx:id="tcTarjetaNomCliente" maxWidth="324.0" minWidth="0.0" prefWidth="324.0" resizable="false" text="Nombre Cliente" />
+                                          <TableColumn fx:id="tcTarjetaId" prefWidth="54.399991035461426" resizable="false" text="Id" />
+                                          <TableColumn fx:id="tcTarjetaNum" prefWidth="263.2000274658203" resizable="false" text="Numero de tarjeta" />
+                                          <TableColumn fx:id="tcTarjetaFechaVen" minWidth="8.79998779296875" prefWidth="134.39996337890625" resizable="false" text="Fecha de Vencimiento" />
+                                          <TableColumn fx:id="tcTarjetaCvc" minWidth="0.0" prefWidth="58.39996337890625" resizable="false" text="CVC" />
+                                          <TableColumn fx:id="tcTarjetaTipo" minWidth="0.0" prefWidth="104.79998779296875" resizable="false" text="Tipo de Tarjeta" />
+                                          <TableColumn fx:id="tcTarjetaFacilitador" minWidth="0.0" prefWidth="88.800048828125" resizable="false" text="Facilitador" />
+                                          <TableColumn fx:id="tcTarjetaNomCliente" maxWidth="236.7999267578125" minWidth="0.0" prefWidth="196.79998779296875" resizable="false" text="Nombre Cliente" />
                                        </columns>
                                     </TableView>
                                     <TextField fx:id="txtBuscarTarjeta" layoutX="496.0" layoutY="212.0" prefHeight="26.0" prefWidth="352.0" />
-                                    <Button fx:id="btnBuscarTarjeta" layoutX="858.0" layoutY="213.0" mnemonicParsing="false" text="Buscar" />
-                                    <Button fx:id="btnGuardarTarjeta" layoutX="387.0" layoutY="124.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
-                                    <Button fx:id="btnEliminarTarjeta" layoutX="387.0" layoutY="163.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <Button fx:id="btnBuscarTarjeta" layoutX="858.0" layoutY="213.0" mnemonicParsing="false" onAction="#buscarTarjeta" text="Buscar" />
+                                    <Button fx:id="btnGuardarTarjeta" layoutX="387.0" layoutY="124.0" mnemonicParsing="false" onAction="#agregarTarjeta" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
+                                    <Button fx:id="btnEliminarTarjeta" layoutX="387.0" layoutY="163.0" mnemonicParsing="false" onAction="#eliminarTarjeta" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
                                     <TextField fx:id="txtNumTarjeta" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="324.0" />
                                     <TextField fx:id="txtCvc" layoutX="202.0" layoutY="102.0" prefHeight="26.0" prefWidth="139.0" />
                                     <TextField fx:id="txtFechaVencimiento" layoutX="20.0" layoutY="102.0" prefHeight="26.0" prefWidth="166.0" />
@@ -80,12 +82,12 @@
                                     <ComboBox fx:id="cbFacilitador" layoutX="202.0" layoutY="164.0" prefHeight="26.0" prefWidth="139.0" />
                                     <ComboBox fx:id="cbClientes" layoutX="387.0" layoutY="43.0" prefHeight="26.0" prefWidth="278.0" />
                                     <Label layoutX="387.0" layoutY="22.0" text="Cliente:" />
-                                    <TextField fx:id="txtTarjetaId" layoutX="128.0" layoutY="1.0" prefHeight="2.0" prefWidth="22.0" style="visibility: false;" />
+                                    <TextField fx:id="txtTarjetaId" editable="false" layoutX="128.0" layoutY="1.0" prefHeight="2.0" prefWidth="22.0" style="visibility: false;" />
                                  </children>
                               </AnchorPane>
                            </content>
                       </Tab>
-                        <Tab text="Compras">
+                        <Tab onSelectionChanged="#vistaCompras" text="Compras">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="922.0">
                                  <children>
@@ -99,9 +101,9 @@
                                        </columns>
                                     </TableView>
                                     <TextField fx:id="txtBuscarCompra" layoutX="496.0" layoutY="277.0" prefHeight="26.0" prefWidth="352.0" />
-                                    <Button fx:id="btnBuscarCompra" layoutX="858.0" layoutY="278.0" mnemonicParsing="false" text="Buscar" />
-                                    <Button fx:id="btnGuardarCompra" layoutX="538.0" layoutY="43.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
-                                    <Button fx:id="btnEliminarCompra" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
+                                    <Button fx:id="btnBuscarCompra" layoutX="858.0" layoutY="278.0" mnemonicParsing="false" onAction="#buscarCompra" text="Buscar" />
+                                    <Button fx:id="btnGuardarCompra" layoutX="538.0" layoutY="43.0" mnemonicParsing="false" onAction="#agregarCompra" prefHeight="26.0" prefWidth="96.0" text="Guardar" />
+                                    <Button fx:id="btnEliminarCompra" layoutX="538.0" layoutY="82.0" mnemonicParsing="false" onAction="#eliminarCompra" prefHeight="26.0" prefWidth="96.0" text="Eliminar" />
                                     <TextArea fx:id="txtAreaDescripcion" layoutX="20.0" layoutY="165.0" prefHeight="112.0" prefWidth="466.0" />
                                     <TextField fx:id="txtMonto" layoutX="20.0" layoutY="43.0" prefHeight="26.0" prefWidth="219.0" />
                                     <Label layoutX="20.0" layoutY="22.0" text="Monto:" />
@@ -110,7 +112,7 @@
                                     <Label layoutX="20.0" layoutY="140.0" text="Descripcion:" />
                                     <DatePicker fx:id="datePickerFechaCompra" layoutX="265.0" layoutY="43.0" prefHeight="26.0" prefWidth="218.0" />
                                     <ComboBox fx:id="cbTarjetas" layoutX="20.0" layoutY="108.0" prefHeight="26.0" prefWidth="463.0" />
-                                    <TextField fx:id="txtCompraId" layoutX="153.0" layoutY="9.0" prefHeight="25.0" prefWidth="26.0" style="visibility: false;" />
+                                    <TextField fx:id="txtCompraId" editable="false" layoutX="153.0" layoutY="9.0" prefHeight="25.0" prefWidth="26.0" style="visibility: false;" />
                                  </children>
                               </AnchorPane>
                            </content>
