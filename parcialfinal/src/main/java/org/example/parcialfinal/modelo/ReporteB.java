@@ -14,7 +14,7 @@ public class ReporteB implements ReporteInterfaz { // 00402523 creación de la c
     @Override // 00402523 sobrescribir el metodo de la interfaz
     public void generarConsulta(ReporteParametro reporteParametro) { // 00402523 metodo para generar la consulta mysql
         try { // 00402523 inicia try catch para la consulta mysql
-            String query = "SELECT SUM(compra.monto) AS compras, cliente.nombre, date(?) as MES FROM compra LEFT JOIN tarjeta ON tarjeta.id = compra.tarjeta_id LEFT JOIN cliente ON cliente.id = tarjeta.cliente_id WHERE cliente.id = ? AND compra.fecha BETWEEN ? AND ?";
+            String query = "SELECT SUM(compra.monto) AS compras, cliente.nombre, date(?) as MES FROM compra LEFT JOIN tarjeta ON tarjeta.id = compra.tarjeta_id LEFT JOIN cliente ON cliente.id = tarjeta.cliente_id WHERE cliente.id = ? AND compra.fecha BETWEEN ? AND ?"; // 00402523 se crea la consulta
             PreparedStatement pst = DatabaseConnection.getConnection().prepareStatement(query); // 00402523 se crea la consulta preparada con la clase de la conexion a la base
 
             pst.setDate(1, reporteParametro.getInicio()); // 00402523 se envia parametro
