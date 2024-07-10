@@ -895,8 +895,6 @@ public class HelloController implements Initializable {
 
     @FXML // 00402523 elemento de FXML
     public void obtenerReporteD() { // 00402523 metodo para generar el reporte
-        System.out.println(cbReporteDfacilitador.getValue().getId());
-        System.out.println(cbReporteDfacilitador.getValue().getTipo());
         try { // 00402523 try catch para generar el reporte
 
 
@@ -910,53 +908,53 @@ public class HelloController implements Initializable {
         }
     }
 
-    private void cargarComboClientes() {
-        try {
-            String query = "SELECT * FROM cliente";
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+    private void cargarComboClientes() { // 00191322 metodo para cargar el combobox de los clientes
+        try { // 00402523 try catch para la query
+            String query = "SELECT * FROM cliente"; // 00191322 query sql
+            Statement stmt = DatabaseConnection.getConnection().createStatement(); // 00191322 se crea Statement
+            ResultSet rs = stmt.executeQuery(query); // 00191322 se ejecuta statement y se guarda en Resultset
 
-            listadoClientesCombo = new ArrayList<Cliente>();
+            listadoClientesCombo = new ArrayList<Cliente>(); // 00191322 se inicializa listadoClientesCombo
 
-            while (rs.next()) {
-                Cliente cliente = new Cliente(rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("direccion"),
-                        rs.getString("telefono"));
+            while (rs.next()) { // 00191322 se ejecuta mientras hayan datos
+                Cliente cliente = new Cliente(rs.getInt("id"), // 00191322 instancia de cliente, se asigna el id por constructor
+                        rs.getString("nombre"), // 00191322 se asigna el nombre por constructor
+                        rs.getString("direccion"), // 00191322 se asigna la direccion por constructor
+                        rs.getString("telefono")); // 00191322 se asigna el telefono por constructor
 
-                reporteCliente.getItems().add(cliente);
+                reporteCliente.getItems().add(cliente); // 00191322 se agrega el cliente al combobox
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) { // 00191322 Se catchea la excepcion SQLException
+            System.out.println(e.getMessage()); // 00191322 Se imprime el mensaje en consola
+            throw new RuntimeException(e); // 00191322 Se lanza la excepcion
+        } finally { // 00191322 Cuando se termina el bloque try-catch se ejecutara esto
+            DatabaseConnection.closeConnection(); // 00191322 Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
     }
 
-    private void cargarComboFacilitadores() {
-        try {
-            String query = "SELECT * FROM facilitador";
-            Statement stmt = DatabaseConnection.getConnection().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+    private void cargarComboFacilitadores() { // 00191322 metodo para cargar el combobox de los facilitadores
+        try { // 00402523 try catch para la query
+            String query = "SELECT * FROM facilitador";  // 00191322 query sql
+            Statement stmt = DatabaseConnection.getConnection().createStatement(); // 00191322 se crea Statement
+            ResultSet rs = stmt.executeQuery(query); // 00191322 se ejecuta statement y se guarda en Resultset
 
 //            listadoClientesCombo = new ArrayList<Cliente>();
 
-            while (rs.next()) {
-                Facilitador facilitador = new Facilitador(rs.getInt("id"),
-                        rs.getString("tipo"));
+            while (rs.next()) { // 00191322 se ejecuta mientras hayan datos
+                Facilitador facilitador = new Facilitador(rs.getInt("id"), // 00191322 se crea una nueva instancia de Facilitador por constructor y se setea el Id
+                        rs.getString("tipo")); // 00191322 se asigna el tipo por constructor
 
-                cbReporteDfacilitador.getItems().add(facilitador);
+                cbReporteDfacilitador.getItems().add(facilitador); // 00191322 se agrega el facilitador al combobox
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        } finally {
-            DatabaseConnection.closeConnection();
+        } catch (SQLException e) { // 00191322 Se catchea la excepcion SQLException
+            System.out.println(e.getMessage()); // 00191322 Se imprime el mensaje en consola
+            throw new RuntimeException(e); // 00191322 Se lanza la excepcion
+        } finally { // 00191322 Cuando se termina el bloque try-catch se ejecutara esto
+            DatabaseConnection.closeConnection(); // 00191322 Se llama a la Clase DatabaseConection y se cierra la conexion con el metodo estatico closeConnection()
         }
     }
 
-    private LocalDate stringALocalDate(String fechaString) {
-        return LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    private LocalDate stringALocalDate(String fechaString) { // 00191322 metodo para convertir fecha
+        return LocalDate.parse(fechaString, DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 00191322 se devuelve la fecha
     }
 }
